@@ -3,6 +3,7 @@ import MainLayout from "../layout/MainLayout";
 import Home from "../Page/Home/Home";
 import SignIn from "../Page/SignIN/SignIn";
 import SignUp from "../Page/SignUp/SignUp";
+import Meals from "../Page/Meals/Meals";
 
 export const router=createBrowserRouter([
     {
@@ -14,13 +15,12 @@ export const router=createBrowserRouter([
                 element:<Home></Home>
             },
             {
-                path:'/login',
-                element:<SignIn></SignIn>
+                path:'/meals',
+                element:<Meals></Meals>
             },
-            {
-                path:"/register",
-                element:<SignUp></SignUp>
-            }
+            
         ]
-    }
+    },
+    {path:"/login", element: <SignIn></SignIn> },
+    {path:'/register', element: <SignUp></SignUp> }
 ])
