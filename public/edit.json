@@ -1,0 +1,62 @@
+[
+  {
+    "foodName": "Chicken Biriyani",
+    "chefName": "Chef Rahim",
+    "chefId": "chef-1023",
+    "foodImage": "https://i.ibb.co.com/gbKrq702/images-2.jpg",
+    "price": 250,
+    "rating": 4.8,
+    "deliveryArea": "Mirpur",
+    "estimatedDeliveryTime": "35 minutes"
+  },
+  {
+    "foodName": "Beef Tehari",
+    "chefName": "Chef Hasan",
+    "chefId": "chef-2211",
+    "foodImage": "https://i.ibb.co.com/BVwhfR67/images-3.jpg",
+    "price": 280,
+    "rating": 4.7,
+    "deliveryArea": "Dhanmondi",
+    "estimatedDeliveryTime": "40 minutes"
+  },
+  {
+    "foodName": "Vegetable Khichuri",
+    "chefName": "Chef Salma",
+    "chefId": "chef-3344",
+    "foodImage": "https://i.ibb.co.com/8nrP3bLY/images-4.jpg",
+    "price": 180,
+    "rating": 4.5,
+    "deliveryArea": "Uttara",
+    "estimatedDeliveryTime": "30 minutes"
+  },
+  {
+    "foodName": "Grilled Chicken",
+    "chefName": "Chef Arif",
+    "chefId": "chef-5566",
+    "foodImage": "https://i.ibb.co.com/spX8p0P3/images-5.jpg",
+    "price": 320,
+    "rating": 4.9,
+    "deliveryArea": "Banani",
+    "estimatedDeliveryTime": "45 minutes"
+  },
+  {
+    "foodName": "Egg Curry",
+    "chefName": "Chef Nabila",
+    "chefId": "chef-7788",
+    "foodImage": "https://i.ibb.co.com/Jjdjwz5R/images-6.jpg",
+    "price": 150,
+    "rating": 4.3,
+    "deliveryArea": "Mohammadpur",
+    "estimatedDeliveryTime": "25 minutes"
+  },
+  {
+    "foodName": "Fish Curry",
+    "chefName": "Chef Kamal",
+    "chefId": "chef-8899",
+    "foodImage": "https://i.ibb.co.com/BMpbVz6/Be-Funky-collage-33.webp",
+    "price": 300,
+    "rating": 4.6,
+    "deliveryArea": "Gulshan",
+    "estimatedDeliveryTime": "40 minutes"
+  }
+]
