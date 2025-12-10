@@ -3,12 +3,12 @@ import { Link } from 'react-router'
 const Card = ({meal}) => {
 
   const{ _id,foodName,
-    chefName,
-    chefId,
-    foodImage,
-    price,
-    rating,
-    deliveryArea}=meal ||{}
+    ChefName,
+    ChefId,
+    FoodImage,
+    Price,
+    Rating,
+    DeliveryArea}=meal ||{}
   return (
    
      <Link
@@ -19,7 +19,7 @@ const Card = ({meal}) => {
        <div className="card h-[350px] mt-5  bg-base-200 w-96 shadow-sm">
   <figure className='h-[50]  rounded-xl  object-contain ' >
     <img className='rounded-xl '
-      src={foodImage}
+      src={FoodImage}
       alt={foodName} />
   </figure>
   <div className="card-body">
@@ -30,24 +30,24 @@ const Card = ({meal}) => {
         </h2>
 
         <p className='text-sm text-gray-600'>
-          👨‍🍳 {chefName}
+          👨‍🍳 {ChefName}
         </p>
 
         <p className='text-xs text-gray-500'>
-          Chef ID: {chefId}
+          Chef ID: {ChefId}
         </p>
 
         <p className='text-sm text-gray-600'>
-          📍 {deliveryArea}
+          📍 {DeliveryArea}
         </p>
 
         <div className='flex justify-between items-center pt-2'>
           <span className='font-bold text-lime-600'>
-            ৳ {price}
+            ${Price}
           </span>
 
           <span className='text-sm text-yellow-500'>
-            ⭐ {rating}
+            ⭐ {Rating}
           </span>
         </div>
 

@@ -3,91 +3,94 @@ import Heading from '../../components/Shared/Heading'
 import Button from '../../components/Shared/Button/Button'
 import PurchaseModal from '../../components/Modal/PurchaseModal'
 import { useState } from 'react'
+import { useParams } from 'react-router'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 
 const MealDetails = () => {
   let [isOpen, setIsOpen] = useState(false)
-
+  const { id } = useParams()
+  console.log(id)
+  const { data: meal = [] } = useQuery({
+    queryKey: ['meal', id],
+    queryFn: async () => {
+      const result = await axios.get(`http://localhost:3000/meal/${id}`)
+      return result.data;
+    }
+  })
+  console.log(meal)
   const closeModal = () => {
     setIsOpen(false)
   }
 
+  const { FoodName, ChefName, FoodImage, Price, Rating, Ingredients, EstimatedDeliveryTime, ChefId, DeliveryArea,ChefExperience } = meal
+
+
   return (
     <Container>
-      <div className='mx-auto flex flex-col lg:flex-row justify-between w-full gap-12'>
-        {/* Header */}
-        <div className='flex flex-col gap-6 flex-1'>
-          <div>
-            <div className='w-full overflow-hidden rounded-xl'>
-              <img
-                className='object-cover w-full'
-                src='https://i.ibb.co/DDnw6j9/1738597899-golden-money-plant.jpg'
-                alt='header image'
-              />
-            </div>
-          </div>
-        </div>
-        <div className='md:gap-10 flex-1'>
-          {/* Plant Info */}
-          <Heading
-            title={'Money Plant'}
-            subtitle={`Category: ${'Succulent'}`}
+
+
+      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 p-6">
+
+        {/* Image Section */}
+        <div className="rounded-xl overflow-hidden shadow-lg">
+          <img
+            src={FoodImage}
+            alt={FoodName}
+            className="w-full h-full object-cover"
           />
-          <hr className='my-6' />
-          <div
-            className='
-          text-lg font-light text-neutral-500'
-          >
-            Professionally deliver sticky testing procedures for next-generation
-            portals. Objectively communicate just in time infrastructures
-            before.
-          </div>
-          <hr className='my-6' />
+        </div>
 
-          <div
-            className='
-                text-xl 
-                font-semibold 
-                flex 
-                flex-row 
-                items-center
-                gap-2
-              '
-          >
-            <div>Seller: Shakil Ahmed Atik</div>
+        {/* Info Section */}
+        <div className="space-y-4">
 
-            <img
-              className='rounded-full'
-              height='30'
-              width='30'
-              alt='Avatar'
-              referrerPolicy='no-referrer'
-              src='https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c'
-            />
-          </div>
-          <hr className='my-6' />
+          <Heading title={FoodName} subtitle={`Prepared by ${ChefName}`} />
+
+          <p className="text-gray-600">
+            <span className="font-semibold">Chef ID:</span> {ChefId}
+          </p>
+
+          <p className="text-gray-600">
+        <span className="font-semibold">Chef Experience:</span> {ChefExperience}
+      </p>
+
+          <hr />
+
+          <p>
+            <span className="font-semibold">Price:</span> ${Price}
+          </p>
+
+          <p>
+            <span className="font-semibold">Rating:</span> {Rating} / 5 ⭐
+          </p>
+
+          <p>
+            <span className="font-semibold">Delivery Area:</span> {DeliveryArea}
+          </p>
+
+          <p>
+            <span className="font-semibold">Estimated Delivery Time:</span>{' '}
+            {EstimatedDeliveryTime}
+          </p>
+
           <div>
-            <p
-              className='
-                gap-4 
-                font-light
-                text-neutral-500
-              '
-            >
-              Quantity: 10 Units Left Only!
-            </p>
+            <p className="font-semibold">Ingredients:</p>
+            <ul className="list-disc ml-6 text-gray-600">
+              {Ingredients?.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
           </div>
-          <hr className='my-6' />
-          <div className='flex justify-between'>
-            <p className='font-bold text-3xl text-gray-500'>Price: 10$</p>
-            <div>
-              <Button onClick={() => setIsOpen(true)} label='Purchase' />
-            </div>
-          </div>
-          <hr className='my-6' />
 
-          <PurchaseModal closeModal={closeModal} isOpen={isOpen} />
+          {/* Order Button */}
+          <Button
+            label="Order Now"
+            onClick={() => setIsOpen(true)}
+          />
         </div>
       </div>
+
+      <PurchaseModal isOpen={isOpen} closeModal={closeModal} />
     </Container>
   )
 }

@@ -1,62 +1,110 @@
 [
   {
-    "foodName": "Chicken Biriyani",
-    "chefName": "Chef Rahim",
-    "chefId": "chef-1023",
-    "foodImage": "https://i.ibb.co.com/gbKrq702/images-2.jpg",
-    "price": 250,
-    "rating": 4.8,
-    "deliveryArea": "Mirpur",
-    "estimatedDeliveryTime": "35 minutes"
+    "FoodName": "Grilled Chicken Salad",
+    "ChefName": "Shakil Ahmed",
+    "ChefId": "C101",
+    "FoodImage": "https://i.ibb.co.com/Q3r1VmLp/images.jpg",
+    "Price": 12,
+    "Rating": 4.5,
+    "Ingredients": ["Chicken Breast", "Lettuce", "Tomatoes", "Cucumber", "Olive Oil", "Lemon Juice"],
+    "DeliveryArea": "Dhaka, Bangladesh",
+    "EstimatedDeliveryTime": "30-40 mins",
+    "ChefExperience": "5 years",
+    "Quantity": 20,
+    "Description": "A healthy grilled chicken salad with fresh veggies and a tangy dressing.",
+    "Reviews": [
+      {"name": "Rana", "rating": 5, "comment": "Delicious and fresh!"},
+      {"name": "Mina", "rating": 4, "comment": "Good taste, portion size perfect."}
+    ]
   },
   {
-    "foodName": "Beef Tehari",
-    "chefName": "Chef Hasan",
-    "chefId": "chef-2211",
-    "foodImage": "https://i.ibb.co.com/BVwhfR67/images-3.jpg",
-    "price": 280,
-    "rating": 4.7,
-    "deliveryArea": "Dhanmondi",
-    "estimatedDeliveryTime": "40 minutes"
+    "FoodName": "Beef Steak with Veggies",
+    "ChefName": "Atikur Rahman",
+    "ChefId": "C102",
+    "FoodImage": "https://i.ibb.co.com/7xyC3Vw7/images-1.jpg",
+    "Price": 18,
+    "Rating": 4.8,
+    "Ingredients": ["Beef", "Carrots", "Broccoli", "Potatoes", "Garlic", "Butter"],
+    "DeliveryArea": "Chittagong, Bangladesh",
+    "EstimatedDeliveryTime": "40-50 mins",
+    "ChefExperience": "7 years",
+    "Quantity": 15,
+    "Description": "Juicy beef steak served with sautéed vegetables and mashed potatoes.",
+    "Reviews": [
+      {"name": "Tasin", "rating": 5, "comment": "Perfectly cooked steak!"},
+      {"name": "Sumi", "rating": 4, "comment": "Loved the veggies with it."}
+    ]
   },
   {
-    "foodName": "Vegetable Khichuri",
-    "chefName": "Chef Salma",
-    "chefId": "chef-3344",
-    "foodImage": "https://i.ibb.co.com/8nrP3bLY/images-4.jpg",
-    "price": 180,
-    "rating": 4.5,
-    "deliveryArea": "Uttara",
-    "estimatedDeliveryTime": "30 minutes"
+    "FoodName": "Veggie Pasta",
+    "ChefName": "Fatema Noor",
+    "ChefId": "C103",
+    "FoodImage": "https://i.ibb.co.com/XBrLRt8/15-Minute-Vegetable-Pasta-5-of-8.jpg",
+    "Price": 10,
+    "Rating": 4.2,
+    "Ingredients": ["Pasta", "Bell Peppers", "Tomatoes", "Zucchini", "Cream", "Parmesan"],
+    "DeliveryArea": "Dhaka, Bangladesh",
+    "EstimatedDelivery Time": "25-35 mins",
+    "ChefExperience": "3 years",
+    "Quantity": 25,
+    "Description": "Italian-style pasta with fresh vegetables and creamy sauce.",
+    "Reviews": [
+      {"name": "Amit", "rating": 4, "comment": "Very tasty and creamy."},
+      {"name": "Nisha", "rating": 5, "comment": "Perfect vegetarian option."}
+    ]
   },
   {
-    "foodName": "Grilled Chicken",
-    "chefName": "Chef Arif",
-    "chefId": "chef-5566",
-    "foodImage": "https://i.ibb.co.com/spX8p0P3/images-5.jpg",
-    "price": 320,
-    "rating": 4.9,
-    "deliveryArea": "Banani",
-    "estimatedDeliveryTime": "45 minutes"
+    "FoodName": "Fried Fish with Rice",
+    "ChefName": "Jahanara Begum",
+    "ChefId": "C104",
+    "FoodImage": "https://i.ibb.co.com/nschjbX8/unnamed.jpg",
+    "Price": 14,
+    "Rating": 4.6,
+    "Ingredients": ["Fish", "Rice", "Lemon", "Spices", "Oil"],
+    "Delivery Area": "Khulna, Bangladesh",
+    "Estimated Delivery Time": "35-45 mins",
+    "ChefExperience": "6 years",
+    "Quantity": 10,
+    "Description": "Crispy fried fish served with steamed rice and sauce.",
+    "Reviews": [
+      {"name": "Rafi", "rating": 5, "comment": "Fish was crispy and tasty!"},
+      {"name": "Sadia", "rating": 4, "comment": "Good portion size."}
+    ]
   },
   {
-    "foodName": "Egg Curry",
-    "chefName": "Chef Nabila",
-    "chefId": "chef-7788",
-    "foodImage": "https://i.ibb.co.com/Jjdjwz5R/images-6.jpg",
-    "price": 150,
-    "rating": 4.3,
-    "deliveryArea": "Mohammadpur",
-    "estimatedDeliveryTime": "25 minutes"
+    "FoodName": "Chicken Biryani",
+    "ChefName": "Shakib Khan",
+    "ChefId": "C105",
+    "FoodImage": "https://i.ibb.co.com/4gZkhgmr/hq720.jpg",
+    "Price": 15,
+    "Rating": 4.9,
+    "Ingredients": ["Chicken", "Basmati Rice", "Onion", "Spices", "Yogurt", "Herbs"],
+    "DeliveryArea": "Dhaka, Bangladesh",
+    "EstimatedDelivery Time": "45-55 mins",
+    "ChefExperience": "8 years",
+    "Quantity": 30,
+    "Description": "Fragrant chicken biryani cooked with basmati rice and spices.",
+    "Reviews": [
+      {"name": "Rina", "rating": 5, "comment": "Best biryani I ever had!"},
+      {"name": "Arif", "rating": 5, "comment": "Perfectly cooked and flavorful."}
+    ]
   },
   {
-    "foodName": "Fish Curry",
-    "chefName": "Chef Kamal",
-    "chefId": "chef-8899",
-    "foodImage": "https://i.ibb.co.com/BMpbVz6/Be-Funky-collage-33.webp",
-    "price": 300,
-    "rating": 4.6,
-    "deliveryArea": "Gulshan",
-    "estimatedDeliveryTime": "40 minutes"
+    "FoodName": "Chocolate Cake",
+    "ChefName": "Maya Hasan",
+    "ChefId": "C106",
+    "FoodImage": "https://i.ibb.co.com/1JpFRnQ7/images-2.jpg",
+    "Price": 8,
+    "Rating": 4.7,
+    "Ingredients": ["Flour", "Cocoa", "Sugar", "Eggs", "Butter", "Chocolate"],
+    "DeliveryArea": "Dhaka, Bangladesh",
+    "EstimatedDeliveryTime": "20-30 mins",
+    "ChefExperience": "4 years",
+    "Quantity": 12,
+    "Description": "Rich and moist chocolate cake topped with ganache.",
+    "Reviews": [
+      {"name": "Sami", "rating": 5, "comment": "Delicious cake!"},
+      {"name": "Tania", "rating": 4, "comment": "Very sweet and tasty."}
+    ]
   }
 ]
