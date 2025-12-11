@@ -38,12 +38,14 @@ const PurchaseOrder = ({ closeModal, isOpen, meal }) => {
           mealName: meal?.foodName,
           price: meal?.price,
           quantity: quantity,
+          chefName:meal?.chefName,
           chefId: meal?.chefId,
           paymentStatus: 'pending',
           userEmail: user?.email,
           userAddress: watch('userAddress'),
           orderStatus: 'pending',
           orderTime: new Date().toISOString(),
+        
         }
 
         console.log("Saving order:", orderData)
