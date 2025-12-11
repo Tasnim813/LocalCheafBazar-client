@@ -15,6 +15,7 @@ import ManageOrders from '../pages/Dashboard/Seller/ManageOrders'
 import MyOrders from '../pages/Dashboard/Customer/MyOrders'
 import { createBrowserRouter } from 'react-router'
 import MealDetails from '../pages/MealDetails/MealDetails'
+import Meals from '../pages/Meals/Meals'
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
         path: '/',
         element: <Home />,
         loader: async()=>fetch(`http://localhost:3000/meal`)
+      },
+      {
+          path:"/meals",
+          element: <Meals></Meals>
       },
       {
         path: '/meal-details/:id',
@@ -52,7 +57,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'add-plant',
+        path: 'create-meal',
         element: (
           <PrivateRoute>
             <AddPlant />

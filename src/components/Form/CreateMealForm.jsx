@@ -2,6 +2,10 @@ import { useForm } from 'react-hook-form'
 import useAuth from '../../hooks/useAuth'
 import { UploadImage } from '../../utillis'
 import { toast } from 'react-hot-toast'
+import Heading from '../Shared/Heading'
+import Button from '../Shared/Button/Button'
+import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
 
 
 const CreateMealForm = () => {
@@ -14,31 +18,49 @@ const CreateMealForm = () => {
     formState: { errors },
     reset,
   } = useForm()
+  const {mutateAsync}=useMutation({
+  mutationFn: async payload=>
+    await axios.post('http://localhost:3000/meals',payload),
+  onSuccess:data =>{
+    console.log(data)
+    
+  },
+  onError:error=>{
+    console.log(error)
+  },
+  onMutate:payload=>{
+    console.log('I will post this data',payload)
+  }
+})
+
 
   const onSubmit = async (data) => {
+     const { foodName, chefName, foodImage,price, rating,ingredients, estimatedDeliveryTime,chefExperience,chefId } = data
+    const imageFile = foodImage[0]
     try {
-      const imageFile = data.foodImage[0]
+      // const imageFile = data.foodImage[0]
       const imageURL = await UploadImage(imageFile)
 
       const mealData = {
-        foodName: data.foodName,
-        chefName: data.chefName,
+        foodName,
+        chefName,
         foodImage: imageURL,
-        price: Number(data.price),
-        rating: 0,
+        price: Number(price),
+        rating:0,
         ingredients: data.ingredients.split(','),
-        estimatedDeliveryTime: data.estimatedDeliveryTime,
-        chefExperience: data.chefExperience,
-        chefId: data.chefId,
+        estimatedDeliveryTime,
+        chefExperience,
+        chefId,
         userEmail: user?.email,
         createdAt: new Date(),
       }
 
-      console.log(mealData)
-      // 👉 POST request here (axios/fetch)
+      console.log('meldata here',mealData)
+     await mutateAsync(mealData)
 
       toast.success('Meal created successfully!')
       reset()
+    
     } catch (err) {
       console.error(err)
       toast.error('Failed to create meal')
@@ -46,122 +68,144 @@ const CreateMealForm = () => {
   }
 
   return (
-    <div className='w-full min-h-[calc(100vh-40px)] flex justify-center items-center bg-gray-50'>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className='w-full max-w-4xl bg-white p-8 rounded-xl shadow'
-      >
-        <h2 className='text-2xl font-bold mb-6 text-gray-700'>
-          Create New Meal
-        </h2>
+  
+      <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-lg">
+        <Heading title="Create New Meal" subtitle="Add a new meal to the platform" />
 
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-6">
+
           {/* Food Name */}
           <div>
-            <label className='text-sm text-gray-600'>Food Name</label>
+            <label className="font-semibold">Food Name</label>
             <input
-              className='input'
-              {...register('foodName', { required: 'Food name is required' })}
+              type="text"
+              className="input input-bordered w-full"
+              placeholder="Enter food name"
+              {...register('foodName', {
+                  required: 'foodName is required'
+                })}
             />
-            {errors.foodName && (
-              <p className='text-xs text-red-500'>
-                {errors.foodName.message}
-              </p>
-            )}
+            {
+              errors.foodName && <p className='text-red-500'>{errors.foodName.message}</p> 
+            }
           </div>
 
           {/* Chef Name */}
           <div>
-            <label className='text-sm text-gray-600'>Chef Name</label>
+            <label className="font-semibold">Chef Name</label>
             <input
-              className='input'
-              {...register('chefName', { required: 'Chef name is required' })}
+              type="text"
+              {...register("chefName", { required: 'chefName is required' })}
+              className="input input-bordered w-full"
+              placeholder="Chef name"
             />
+            {
+              errors.chefName && <p>{errors.chefName.message}</p>
+
+            }
           </div>
+
+          {/* Food Image (Upload URL for now) */}
+         {/* Image */}
+           <div className='p-4 w-full m-auto rounded-lg'>
+  <div className='file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg'>
+    <div className='flex flex-col w-max mx-auto text-center'>
+      <label>
+        <input
+          className='text-sm cursor-pointer w-36 hidden'
+          type='file'
+          accept='image/*'
+         
+                 
+          {...register('foodImage', { required: "Image is required" })}
+        />
+        <div className='bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-600'>
+          Upload
+        </div>
+        {errors.foodImage && (<p className="text-red-500">{errors.foodImage.message}</p>)}
+      </label>
+    </div>
+  </div>
+</div>
 
           {/* Price */}
           <div>
-            <label className='text-sm text-gray-600'>Price</label>
+            <label className="font-semibold">Price ($)</label>
             <input
-              type='number'
-              className='input'
-              {...register('price', { required: true })}
+              type="number"
+              step="0.01"
+              
+              className="input input-bordered w-full"
+              placeholder="Price" 
+               {...register('price', {
+                    required: 'price is required',
+                    min: { value: 0, message: 'Price must be Positive' }
+
+                  })}
+            />
+            {
+                  errors.price && (<p className="text-red-500">{errors.price.message}</p>)
+                }
+          </div>
+
+          {/* Ingredients */}
+          <div>
+            <label className="font-semibold">Ingredients</label>
+            <textarea
+              className="textarea textarea-bordered w-full"
+              placeholder="Comma separated ingredients"
+              {...register("ingredients", { required: 'ingredients is required'})}
             />
           </div>
 
           {/* Estimated Delivery Time */}
           <div>
-            <label className='text-sm text-gray-600'>
-              Estimated Delivery Time
-            </label>
+            <label className="font-semibold">Estimated Delivery Time</label>
             <input
-              className='input'
-              placeholder='30 minutes'
-              {...register('estimatedDeliveryTime', { required: true })}
-            />
-          </div>
-
-          {/* Ingredients */}
-          <div className='lg:col-span-2'>
-            <label className='text-sm text-gray-600'>
-              Ingredients (comma separated)
-            </label>
-            <textarea
-              className='input h-28'
-              placeholder='Chicken, Rice, Spices'
-              {...register('ingredients', { required: true })}
+              type="text"          
+              className="input input-bordered w-full"
+              placeholder="e.g. 30 minutes"
+              {...register("estimatedDeliveryTime", { required: true })}
             />
           </div>
 
           {/* Chef Experience */}
           <div>
-            <label className='text-sm text-gray-600'>Chef Experience</label>
+            <label className="font-semibold">Chef’s Experience</label>
             <input
-              className='input'
-              placeholder='5 years experience'
-              {...register('chefExperience', { required: true })}
+              type="text"
+              {...register("chefExperience", { required: true })}
+              className="input input-bordered w-full"
+              placeholder="e.g. 5 years experience"
             />
           </div>
 
           {/* Chef ID */}
           <div>
-            <label className='text-sm text-gray-600'>Chef ID</label>
+            <label className="font-semibold">Chef ID</label>
             <input
-              className='input bg-gray-100'
-              readOnly
-              {...register('chefId')}
+              type="text"
+              {...register("chefId", { required: true })}
+              className="input input-bordered w-full"
+              placeholder="Assigned Chef ID"
             />
           </div>
 
-          {/* User Email */}
-          <div className='lg:col-span-2'>
-            <label className='text-sm text-gray-600'>User Email</label>
+          {/* User Email (Read Only) */}
+          <div>
+            <label className="font-semibold">User Email</label>
             <input
-              className='input bg-gray-100'
-              readOnly
+              type="email"
               value={user?.email}
+              readOnly
+              className="input input-bordered w-full bg-gray-100"
             />
           </div>
 
-          {/* Image Upload */}
-          <div className='lg:col-span-2'>
-            <label className='text-sm text-gray-600'>Food Image</label>
-            <input
-              type='file'
-              accept='image/*'
-              {...register('foodImage', { required: true })}
-            />
-          </div>
-        </div>
-
-        <button
-          type='submit'
-          className='mt-6 w-full bg-lime-500 text-white py-3 rounded-md font-semibold'
-        >
-          Create Meal
-        </button>
-      </form>
-    </div>
+          {/* Submit */}
+          <Button label="Create Meal" type="submit" />
+        </form>
+      </div>
   )
 }
 

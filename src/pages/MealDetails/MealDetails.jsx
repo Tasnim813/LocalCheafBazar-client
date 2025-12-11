@@ -1,11 +1,12 @@
 import Container from '../../components/Shared/Container'
 import Heading from '../../components/Shared/Heading'
 import Button from '../../components/Shared/Button/Button'
-import PurchaseModal from '../../components/Modal/PurchaseModal'
+import PurchaseModal from '../../components/Modal/PurchaseOrder'
 import { useState } from 'react'
 import { useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import PurchaseOrder from '../../components/Modal/PurchaseOrder'
 
 const MealDetails = () => {
   let [isOpen, setIsOpen] = useState(false)
@@ -14,7 +15,7 @@ const MealDetails = () => {
   const { data: meal = [] } = useQuery({
     queryKey: ['meal', id],
     queryFn: async () => {
-      const result = await axios.get(`http://localhost:3000/meal/${id}`)
+      const result = await axios.get(`http://localhost:3000/meals/${id}`)
       return result.data;
     }
   })
@@ -23,7 +24,7 @@ const MealDetails = () => {
     setIsOpen(false)
   }
 
-  const { FoodName, ChefName, FoodImage, Price, Rating, Ingredients, EstimatedDeliveryTime, ChefId, DeliveryArea,ChefExperience } = meal
+  const { foodName, chefName, foodImage, price, rating, ingredients, estimatedDeliveryTime, chefExperience, chefId } = meal
 
 
   return (
@@ -35,8 +36,8 @@ const MealDetails = () => {
         {/* Image Section */}
         <div className="rounded-xl overflow-hidden shadow-lg">
           <img
-            src={FoodImage}
-            alt={FoodName}
+            src={foodImage}
+            alt={foodName}
             className="w-full h-full object-cover"
           />
         </div>
@@ -44,39 +45,39 @@ const MealDetails = () => {
         {/* Info Section */}
         <div className="space-y-4">
 
-          <Heading title={FoodName} subtitle={`Prepared by ${ChefName}`} />
+          <Heading title={foodName} subtitle={`Prepared by ${chefName}`} />
 
           <p className="text-gray-600">
-            <span className="font-semibold">Chef ID:</span> {ChefId}
+            <span className="font-semibold">Chef ID:</span> {chefId}
           </p>
 
           <p className="text-gray-600">
-        <span className="font-semibold">Chef Experience:</span> {ChefExperience}
+        <span className="font-semibold">Chef Experience:</span> {chefExperience}
       </p>
 
           <hr />
 
           <p>
-            <span className="font-semibold">Price:</span> ${Price}
+            <span className="font-semibold">Price:</span> ${price}
           </p>
 
           <p>
-            <span className="font-semibold">Rating:</span> {Rating} / 5 ⭐
+            <span className="font-semibold">Rating:</span> {rating} / 5 ⭐
           </p>
 
-          <p>
+          {/* <p>
             <span className="font-semibold">Delivery Area:</span> {DeliveryArea}
-          </p>
+          </p> */}
 
           <p>
             <span className="font-semibold">Estimated Delivery Time:</span>{' '}
-            {EstimatedDeliveryTime}
+            {estimatedDeliveryTime}
           </p>
 
           <div>
             <p className="font-semibold">Ingredients:</p>
             <ul className="list-disc ml-6 text-gray-600">
-              {Ingredients?.map((item, index) => (
+              {ingredients?.map((item, index) => (
                 <li key={index}>{item}</li>
               ))}
             </ul>
@@ -90,7 +91,7 @@ const MealDetails = () => {
         </div>
       </div>
 
-      <PurchaseModal isOpen={isOpen} closeModal={closeModal} />
+      <PurchaseOrder meal={meal} isOpen={isOpen} closeModal={closeModal} />
     </Container>
   )
 }
