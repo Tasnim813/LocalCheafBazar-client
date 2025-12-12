@@ -5,7 +5,7 @@ import useAuth from '../../hooks/useAuth'
 import { toast } from 'react-hot-toast'
 import { TbFidgetSpinner } from 'react-icons/tb'
 import { useForm } from 'react-hook-form'
-import { UploadImage } from '../../utillis'
+import { saveOrUpdateUser, UploadImage } from '../../utillis'
 // import axios from 'axios'
 
 const SignUp = () => {
@@ -29,7 +29,7 @@ const SignUp = () => {
      
       //1. User Registration
       const result = await createUser(email, password)
-      // await saveOrUpdateUser({name,email,image:imageURL})
+      await saveOrUpdateUser({name,email,image:imageURL})
 
       // 2. Generate Image url from selected file
 

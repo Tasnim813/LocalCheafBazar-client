@@ -16,6 +16,7 @@ import MyOrders from '../pages/Dashboard/Customer/MyOrders'
 import { createBrowserRouter } from 'react-router'
 import MealDetails from '../pages/MealDetails/MealDetails'
 import Meals from '../pages/Meals/Meals'
+import Payment from '../components/Dashboard/Payment/Payment'
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
         path: '/meal-details/:id',
         element:<MealDetails></MealDetails>,
       },
+      {
+        path:'/payment-success',
+        element:<Payment></Payment>
+      },
     ],
   },
   { path: '/login', element: <Login /> },
@@ -55,7 +60,7 @@ export const router = createBrowserRouter([
             <Statistics />
           </PrivateRoute>
         ),
-      },
+      },    
       {
         path: 'create-meal',
         element: (

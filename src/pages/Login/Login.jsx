@@ -5,6 +5,7 @@ import useAuth from '../../hooks/useAuth'
 import { FcGoogle } from 'react-icons/fc'
 import { TbFidgetSpinner } from 'react-icons/tb'
 import { useForm } from 'react-hook-form'
+import { saveOrUpdateUser } from '../../utillis'
 
 
 const Login = () => {
@@ -26,11 +27,12 @@ const Login = () => {
     try {
       //User Login
     await signIn(email, password)
-//  await saveOrUpdateUser({
-//         name: user?.displayName,
-//         email: user?.email,
-//         image: user?.photoURL
-//       })
+ await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL
+      
+      })
 
       navigate(from, { replace: true })
       toast.success('Login Successful')

@@ -36,7 +36,7 @@ const PurchaseOrder = ({ closeModal, isOpen, meal }) => {
 
         const orderData = {
           mealName: meal?.foodName,
-          price: meal?.price,
+          price: totalPrice,
           quantity: quantity,
           chefName:meal?.chefName,
           chefId: meal?.chefId,
@@ -45,6 +45,11 @@ const PurchaseOrder = ({ closeModal, isOpen, meal }) => {
           userAddress: watch('userAddress'),
           orderStatus: 'pending',
           orderTime: new Date().toISOString(),
+          seller:{
+            name:user?.displayName,
+            email:user?.email
+
+          }
         
         }
 
