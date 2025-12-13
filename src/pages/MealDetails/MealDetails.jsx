@@ -7,8 +7,12 @@ import { useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import PurchaseOrder from '../../components/Modal/PurchaseOrder'
+import ReviewSection from './ReviewSection'
+import useAuth from '../../hooks/useAuth'
+import toast from 'react-hot-toast'
 
 const MealDetails = () => {
+  const {user}=useAuth()
   let [isOpen, setIsOpen] = useState(false)
   const { id } = useParams()
   console.log(id)
@@ -25,6 +29,28 @@ const MealDetails = () => {
   }
 
   const { foodName, chefName, foodImage, price, rating, ingredients, estimatedDeliveryTime, chefExperience, chefId } = meal
+
+const handleFavorite = async () => {
+  const favoriteData = {
+    email: user?.email,
+    mealId: meal?._id,
+    mealName: meal?.foodName,
+    chefId: meal?.chefId,
+    chefName: meal?.chefName,
+    price: meal?.price,
+    addedTime: new Date(),
+  };
+
+  try {
+    const result = await axios.post('http://localhost:3000/favorite', favoriteData);
+    console.log('Favorite added:', result.data);
+    toast.success('successfully added') 
+    return result.data;
+  } catch (error) {
+    toast.error('Already added ')
+    console.error('Error adding favorite:', error);
+  }
+};
 
 
   return (
@@ -65,9 +91,7 @@ const MealDetails = () => {
             <span className="font-semibold">Rating:</span> {rating} / 5 ⭐
           </p>
 
-          {/* <p>
-            <span className="font-semibold">Delivery Area:</span> {DeliveryArea}
-          </p> */}
+         
 
           <p>
             <span className="font-semibold">Estimated Delivery Time:</span>{' '}
@@ -92,6 +116,11 @@ const MealDetails = () => {
       </div>
 
       <PurchaseOrder meal={meal} isOpen={isOpen} closeModal={closeModal} />
+      <div>
+
+        <ReviewSection></ReviewSection>
+            <button onClick={handleFavorite} className='btn btn-secondary'>Favorites</button>
+      </div>
     </Container>
   )
 }

@@ -17,6 +17,7 @@ import { createBrowserRouter } from 'react-router'
 import MealDetails from '../pages/MealDetails/MealDetails'
 import Meals from '../pages/Meals/Meals'
 import Payment from '../components/Dashboard/Payment/Payment'
+import MyFavorite from '../pages/Dashboard/Customer/MyFavorite'
 
 export const router = createBrowserRouter([
   {
@@ -100,6 +101,11 @@ export const router = createBrowserRouter([
             <MyOrders />
           </PrivateRoute>
         ),
+      },
+      {
+        path:"favorite-meal",
+        element:<PrivateRoute><MyFavorite></MyFavorite></PrivateRoute>
+
       },
       {
         path: 'manage-orders',
