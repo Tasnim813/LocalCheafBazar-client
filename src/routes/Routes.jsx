@@ -20,6 +20,7 @@ import Payment from '../components/Dashboard/Payment/Payment'
 import MyFavorite from '../pages/Dashboard/Customer/MyFavorite'
 import MyReview from '../pages/Dashboard/Customer/MyReview'
 import OrderRequests from '../pages/Dashboard/Seller/OrderRequests'
+import ManageRequests from '../pages/Dashboard/Admin/ManageUsers'
 
 export const router = createBrowserRouter([
   {
@@ -84,7 +85,7 @@ export const router = createBrowserRouter([
         path: 'manage-users',
         element: (
           <PrivateRoute>
-            <ManageUsers />
+           <ManageUsers></ManageUsers>
           </PrivateRoute>
         ),
       },
