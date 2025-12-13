@@ -10,6 +10,7 @@ import PurchaseOrder from '../../components/Modal/PurchaseOrder'
 import ReviewSection from './ReviewSection'
 import useAuth from '../../hooks/useAuth'
 import toast from 'react-hot-toast'
+import FoodDetail from './FoodDetail'
 
 const MealDetails = () => {
   const {user}=useAuth()
@@ -117,8 +118,8 @@ const handleFavorite = async () => {
 
       <PurchaseOrder meal={meal} isOpen={isOpen} closeModal={closeModal} />
       <div>
-
-        <ReviewSection></ReviewSection>
+          <FoodDetail meal={meal}></FoodDetail>
+        {/* <ReviewSection></ReviewSection> */}
             <button onClick={handleFavorite} className='btn btn-secondary'>Favorites</button>
       </div>
     </Container>

@@ -17,6 +17,8 @@ const CustomerMenu = () => {
 
       <MenuItem icon={BsFingerprint} label='Favorite Meal' address='favorite-meal' />
 
+      <MenuItem icon={BsFingerprint} label='My Review' address='my-review' />
+
      
 
       

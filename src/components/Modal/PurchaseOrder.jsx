@@ -34,24 +34,40 @@ const PurchaseOrder = ({ closeModal, isOpen, meal }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
 
-        const orderData = {
-          mealName: meal?.foodName,
-          price: totalPrice,
-          quantity: quantity,
-          chefName:meal?.chefName,
-          chefId: meal?.chefId,
-          paymentStatus: 'pending',
-          userEmail: user?.email,
-          userAddress: watch('userAddress'),
-          orderStatus: 'pending',
-          orderTime: new Date().toISOString(),
-          seller:{
-            name:user?.displayName,
-            email:user?.email
+        // const orderData = {
+        //   mealName: meal?.foodName,
+        //   price: totalPrice,
+        //   quantity: quantity,
+        //   chefName:meal?.chefName,
+        //   chefId: meal?.chefId,
+        //   paymentStatus: 'pending',
+        //   userEmail: user?.email,
+        //   userAddress: watch('userAddress'),
+        //   orderStatus: 'pending',
+        //   orderTime: new Date().toISOString(),
+        //   seller:{
+        //     name:user?.displayName,
+        //     email:user?.email
 
-          }
+        //   }
         
-        }
+        // }
+        const orderData = {
+  mealName: meal?.foodName,
+  price: totalPrice,
+  quantity: quantity,
+  chefName: meal?.chefName,
+  chefId: meal?.chef?.uid || meal?.chefId,  // <-- UID পাঠাচ্ছি
+  paymentStatus: 'pending',
+  userEmail: user?.email,
+  userAddress: watch('userAddress'),
+  orderStatus: 'pending',
+  orderTime: new Date().toISOString(),
+  seller:{
+    name: user?.displayName,
+    email: user?.email
+  }
+}
 
         console.log("Saving order:", orderData)
 

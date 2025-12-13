@@ -11,13 +11,15 @@ import Profile from '../pages/Dashboard/Common/Profile'
 import Statistics from '../pages/Dashboard/Common/Statistics'
 import MainLayout from '../layouts/MainLayout'
 import MyInventory from '../pages/Dashboard/Seller/MyInventory'
-import ManageOrders from '../pages/Dashboard/Seller/ManageOrders'
+import ManageOrders from '../pages/Dashboard/Seller/OrderRequests'
 import MyOrders from '../pages/Dashboard/Customer/MyOrders'
 import { createBrowserRouter } from 'react-router'
 import MealDetails from '../pages/MealDetails/MealDetails'
 import Meals from '../pages/Meals/Meals'
 import Payment from '../components/Dashboard/Payment/Payment'
 import MyFavorite from '../pages/Dashboard/Customer/MyFavorite'
+import MyReview from '../pages/Dashboard/Customer/MyReview'
+import OrderRequests from '../pages/Dashboard/Seller/OrderRequests'
 
 export const router = createBrowserRouter([
   {
@@ -108,8 +110,12 @@ export const router = createBrowserRouter([
 
       },
       {
+        path:"my-review",
+        element:<MyReview></MyReview>
+      },
+      {
         path: 'manage-orders',
-        element: <ManageOrders />,
+        element: <OrderRequests></OrderRequests>,
       },
     ],
   },
