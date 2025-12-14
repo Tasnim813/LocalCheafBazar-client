@@ -66,7 +66,7 @@ export const router = createBrowserRouter([
         index: true,
         element: (
           <PrivateRoute>
-            <Statistics />
+            <Profile></Profile>
           </PrivateRoute>
         ),
       },
@@ -103,10 +103,10 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'profile',
+        path: 'static-page',
         element: (
           <PrivateRoute>
-            <Profile />
+            <Statistics></Statistics>
           </PrivateRoute>
         ),
       },

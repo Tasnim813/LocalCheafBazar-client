@@ -65,24 +65,24 @@ const Sidebar = () => {
             </div>
           </div>
 
-          {/* Middle Content */}
-          <div className='flex flex-col justify-between flex-1 mt-6'>
-            {/*  Menu Items */}
+        {/* Middle Content */}
+<div className='flex flex-col flex-1 mt-4'>
 
-             <MenuItem
-              icon={FcSettings}
-              label='Profile'
-              address='/dashboard/profile'
-            />
-            <nav>
-    
-              {/* Role-Based Menu */}
-              {role=='customer' && <CustomerMenu />}
-              
-              {role =='chef' && <SellerMenu />}
-              {role== 'admin' && <AdminMenu />}
-            </nav>
-          </div>
+  {/* Profile – Always Top */}
+  <MenuItem
+    icon={FcSettings}
+    label='Profile'
+    address='/dashboard'
+  />
+
+  <nav className='mt-2 space-y-1'>
+    {role === 'customer' && <CustomerMenu />}
+    {role === 'chef' && <SellerMenu />}
+    {role === 'admin' && <AdminMenu />}
+  </nav>
+
+</div>
+
 
           {/* Bottom Content */}
           <div>
