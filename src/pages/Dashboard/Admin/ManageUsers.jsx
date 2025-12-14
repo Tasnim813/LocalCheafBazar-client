@@ -1,64 +1,63 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Swal from "sweetalert2";
+import React from 'react'
+import { useQuery } from '@tanstack/react-query'
+import useAxiosSecure from '../../../hooks/useAxiosSecure'
+import Swal from 'sweetalert2'
 
 const ManageUsers = () => {
-  const [users, setUsers] = useState([]);
+  const axiosSecure = useAxiosSecure()
 
-  const fetchUsers = async () => {
+  // Fetch all users
+  const { data: users = [], refetch, isLoading } = useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const res = await axiosSecure.get('/users')
+      return res.data
+    },
+  })
+
+  // Handle Make Fraud
+  const handleMakeFraud = async (email, status) => {
+    if (status === 'fraud') return
     try {
-      const res = await axios.get("http://localhost:3000/users");
-      setUsers(res.data);
+      await axiosSecure.patch(`/users/status-update/${email}`, { status: 'fraud' })
+      Swal.fire('Success', 'User marked as fraud', 'success')
+      refetch()
     } catch (err) {
-      console.error(err);
+      Swal.fire('Error', err.response?.data?.error || 'Failed to update status', 'error')
     }
-  };
+  }
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const handleMakeFraud = async (id) => {
-    try {
-      const res = await axios.patch(`http://localhost:3000/users/fraud/${id}`);
-      Swal.fire("Success", res.data.message, "success");
-      fetchUsers();
-    } catch (err) {
-      Swal.fire("Error", err.response?.data?.message || "Something went wrong", "error");
-    }
-  };
+  if (isLoading) return <p className="text-center mt-10">Loading...</p>
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Manage Users</h1>
-      <table className="min-w-full border border-gray-300">
+    <div className="p-6 max-w-5xl mx-auto">
+      <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
+      <table className="w-full border-collapse border">
         <thead>
-          <tr className="bg-gray-100">
-            <th className="border p-2">Name</th>
-            <th className="border p-2">Email</th>
-            <th className="border p-2">Role</th>
-            <th className="border p-2">Status</th>
-            <th className="border p-2">Action</th>
+          <tr className="bg-gray-200">
+            <th className="border px-4 py-2">Name</th>
+            <th className="border px-4 py-2">Email</th>
+            <th className="border px-4 py-2">Role</th>
+            <th className="border px-4 py-2">Status</th>
+            <th className="border px-4 py-2">Action</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user._id}>
-              <td className="border p-2">{user.name}</td>
-              <td className="border p-2">{user.email}</td>
-              <td className="border p-2">{user.role}</td>
-              <td className="border p-2">{user.status}</td>
-              <td className="border p-2">
-                {(user.role !== "admin" && user.status !== "fraud") && (
+          {users.map(u => (
+            <tr key={u._id} className="text-center">
+              <td className="border px-4 py-2">{u.name}</td>
+              <td className="border px-4 py-2">{u.email}</td>
+              <td className="border px-4 py-2">{u.role}</td>
+              <td className="border px-4 py-2">{u.status}</td>
+              <td className="border px-4 py-2">
+                {(u.role === 'user' || u.role === 'chef') && (
                   <button
-                    className="bg-red-500 text-white px-3 py-1 rounded"
-                    onClick={() => handleMakeFraud(user._id)}
+                    disabled={u.status === 'fraud'}
+                    onClick={() => handleMakeFraud(u.email, u.status)}
+                    className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50"
                   >
-                    Make Fraud
+                    {u.status === 'fraud' ? 'Fraud' : 'Make Fraud'}
                   </button>
-                )}
-                {user.status === "fraud" && (
-                  <span className="text-gray-500">Fraud</span>
                 )}
               </td>
             </tr>
@@ -66,7 +65,7 @@ const ManageUsers = () => {
         </tbody>
       </table>
     </div>
-  );
-};
+  )
+}
 
-export default ManageUsers;
+export default ManageUsers

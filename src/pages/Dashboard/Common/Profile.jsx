@@ -1,100 +1,85 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import useAuth from '../../../hooks/useAuth';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react'
+import Swal from 'sweetalert2'
+import useAuth from '../../../hooks/useAuth'
+import useAxiosSecure from '../../../hooks/useAxiosSecure'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 
 const Profile = () => {
-  const { user } = useAuth();
-  const [requesting, setRequesting] = useState({ chef: false, admin: false });
-  const [requestSent, setRequestSent] = useState({ chef: false, admin: false });
+  const { user } = useAuth()
+  const axiosSecure = useAxiosSecure()
+  const [requesting, setRequesting] = useState(false)
 
-  // Fetch all users
-  const { data: allUsers = [] } = useQuery({
-    queryKey: ['Profile'],
-    queryFn: async () => {
-      const result = await axios.get('http://localhost:3000/users');
-      return result.data;
-    }
-  });
-
-  // Filter current logged-in user
-  const currentUserProfile = allUsers.find(p => p.email === user.email) || {};
-
-  // Send Chef/Admin request
+  // Fetch user profile
+const {data: profile=[]}=useQuery({
+  queryKey:['profile'],
+  queryFn:async()=>{
+    const result=await axios.get(`http://localhost:3000/users/${user?.email}`)
+    return result.data
+  }
+})
+  // Handle role request
   const handleRequest = async (type) => {
-    setRequesting(prev => ({ ...prev, [type]: true }));
-
-    const requestData = {
-      _id: currentUserProfile._id || "",
-      userName: currentUserProfile.name || user.displayName,
-      userEmail: currentUserProfile.email || user.email,
-      requestType: type,
-      requestStatus: "pending",
-      requestTime: new Date().toISOString()
-    };
-
+    if (!profile.email) return; // safety check
+    setRequesting(true)
     try {
-      const res = await axios.post("http://localhost:3000/role-requests", requestData);
-      Swal.fire("Request Sent!", res.data.message || `Your ${type} request has been sent!`, "success");
-      setRequestSent(prev => ({ ...prev, [type]: true }));
+      const res = await axiosSecure.post('/role-requests', {
+        userName: profile.name,
+        userEmail: profile.email,
+        requestType: type,
+        requestStatus: 'pending',
+        requestTime: new Date().toISOString()
+      })
+      Swal.fire('Request Sent!', res.data.message || 'Request has been sent!', 'success')
     } catch (err) {
-      console.error("Send request error:", err);
-      Swal.fire("Error!", err.response?.data?.error || "Failed to send request", "error");
+      Swal.fire('Error!', err.response?.data?.error || 'Failed to send request', 'error')
     } finally {
-      setRequesting(prev => ({ ...prev, [type]: false }));
+      setRequesting(false)
     }
-  };
+  }
+
+  // if (isLoading) return <p className="text-center mt-10">Loading...</p>
+  // if (isError) return <p className="text-center mt-10 text-red-500">Error fetching profile</p>
+
+  const { name, email, image, address, role, status, chefId } = profile
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-xl rounded-xl">
       <div className="flex flex-col items-center">
-        {/* User Image */}
-        <img 
-          src={currentUserProfile.image || user.photoURL || '/default-avatar.png'} 
-          alt={currentUserProfile.name || user.displayName || 'User'} 
-          className="w-24 h-24 rounded-full object-cover mb-4" 
-        />
+        <img src={image || user?.photoURL} alt={name} className="w-28 h-28 rounded-full object-cover mb-4" />
+        <h2 className="text-2xl font-bold">{name}</h2>
+        <p className="text-gray-600">{email}</p>
+        <p className="text-gray-600">📍 {address}</p>
 
-        {/* User Info */}
-        <h2 className="text-xl font-semibold">{currentUserProfile.name || user.displayName}</h2>
-        <p className="text-gray-600">{currentUserProfile.email || user.email}</p>
-        <p className="text-gray-600">{currentUserProfile.address || "No address added"}</p>
-        <p className="text-gray-600"><strong>Role:</strong> {currentUserProfile.role || "user"}</p>
-        <p className="text-gray-600"><strong>Status:</strong> {currentUserProfile.status || "active"}</p>
-        {currentUserProfile.role === "chef" && (
-          <p className="text-gray-600"><strong>Chef ID:</strong> {currentUserProfile.chefId || "Not assigned yet"}</p>
-        )}
+        <div className="mt-3 space-y-1 text-gray-700">
+          <p><strong>Role:</strong> {role}</p>
+          <p><strong>Status:</strong> {status}</p>
+          {role === 'chef' && <p><strong>Chef ID:</strong> {chefId}</p>}
+        </div>
 
-        {/* Request Buttons */}
-        <div className="flex gap-4 mt-4">
-          {/* Be a Chef button */}
-          {currentUserProfile.role !== "chef" && currentUserProfile.role !== "admin" && (
-            <button 
+        <div className="flex gap-4 mt-6">
+          {role !== 'chef' && role !== 'admin' && (
+            <button
+              disabled={requesting}
               onClick={() => handleRequest('chef')}
-              disabled={requesting.chef || requestSent.chef}
-              className={`px-4 py-2 rounded text-white transition 
-                ${requestSent.chef ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'}`}
+              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
             >
-              {requestSent.chef ? 'Request Sent!' : requesting.chef ? 'Sending...' : 'Be a Chef'}
+              Be a Chef
             </button>
           )}
-
-          {/* Be an Admin button */}
-          {currentUserProfile.role !== "admin" && (
-            <button 
+          {role !== 'admin' && (
+            <button
+              disabled={requesting}
               onClick={() => handleRequest('admin')}
-              disabled={requesting.admin || requestSent.admin}
-              className={`px-4 py-2 rounded text-white transition 
-                ${requestSent.admin ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
             >
-              {requestSent.admin ? 'Request Sent!' : requesting.admin ? 'Sending...' : 'Be an Admin'}
+              Be an Admin
             </button>
           )}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

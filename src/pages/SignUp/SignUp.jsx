@@ -19,32 +19,34 @@ const SignUp = () => {
   console.log(errors)
   const password = watch('password')
   const onSubmit = async (data) => {
-    const { name, image, email, password } = data
-    const imagePic = image[0]
-  
+  const { name, image, email, password, address } = data
+  const imagePic = image[0]
 
+  try {
+    const imageURL = await UploadImage(imagePic)
 
-    try {
-      const imageURL=await   UploadImage(imagePic)
-     
-      //1. User Registration
-      const result = await createUser(email, password)
-      await saveOrUpdateUser({name,email,image:imageURL})
+    // 1. Firebase user create
+    const result = await createUser(email, password)
 
-      // 2. Generate Image url from selected file
+    // 2. Save user to DB (WITH address)
+    await saveOrUpdateUser({
+      name,
+      email,
+      image: imageURL,
+      address,
+    })
 
-      //3. Save username & profile photo
-      await updateUserProfile(
-        name,imageURL)
-      console.log(result)
+    // 3. Update firebase profile
+    await updateUserProfile(name, imageURL)
 
-      navigate(from, { replace: true })
-      toast.success('Signup Successful')
-    } catch (err) {
-      console.log(err)
-      toast.error(err?.message)
-    }
+    navigate(from, { replace: true })
+    toast.success('Signup Successful')
+  } catch (err) {
+    console.log(err)
+    toast.error(err?.message)
   }
+}
+
 
 
 

@@ -20,11 +20,12 @@ import Payment from '../components/Dashboard/Payment/Payment'
 import MyFavorite from '../pages/Dashboard/Customer/MyFavorite'
 import MyReview from '../pages/Dashboard/Customer/MyReview'
 import OrderRequests from '../pages/Dashboard/Seller/OrderRequests'
-import ManageRequests from '../pages/Dashboard/Admin/ManageUsers'
+
 import MyMealsPage from '../pages/Dashboard/Seller/MyMealsPage'
-import ManageRequest from '../pages/Dashboard/Admin/AdminManageRequests'
-import AdminManageRequests from '../pages/Dashboard/Admin/AdminManageRequests'
+
+
 import UpdateMeal from '../pages/Dashboard/Seller/UpdateMeal'
+import ManageRequests from '../pages/Dashboard/Admin/ManageRequests'
 
 export const router = createBrowserRouter([
   {
@@ -132,7 +133,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'manage-request',
-        element: <AdminManageRequests></AdminManageRequests>
+        element: <ManageRequests></ManageRequests>
       }
     ],
   },
