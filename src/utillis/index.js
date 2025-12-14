@@ -9,7 +9,7 @@ export  const UploadImage=async imageData =>{
 }
 
 export const saveOrUpdateUser= async userData=>{
-  const {data}= await axios.post('http://localhost:3000/user',userData)
+  const {data}= await axios.post('http://localhost:3000/users',userData)
   return data;
 
 }

@@ -10,7 +10,7 @@ import ManageUsers from '../pages/Dashboard/Admin/ManageUsers'
 import Profile from '../pages/Dashboard/Common/Profile'
 import Statistics from '../pages/Dashboard/Common/Statistics'
 import MainLayout from '../layouts/MainLayout'
-import MyInventory from '../pages/Dashboard/Seller/MyInventory'
+import MyInventory from '../pages/Dashboard/Seller/MyMealsPage'
 import ManageOrders from '../pages/Dashboard/Seller/OrderRequests'
 import MyOrders from '../pages/Dashboard/Customer/MyOrders'
 import { createBrowserRouter } from 'react-router'
@@ -21,6 +21,10 @@ import MyFavorite from '../pages/Dashboard/Customer/MyFavorite'
 import MyReview from '../pages/Dashboard/Customer/MyReview'
 import OrderRequests from '../pages/Dashboard/Seller/OrderRequests'
 import ManageRequests from '../pages/Dashboard/Admin/ManageUsers'
+import MyMealsPage from '../pages/Dashboard/Seller/MyMealsPage'
+import ManageRequest from '../pages/Dashboard/Admin/AdminManageRequests'
+import AdminManageRequests from '../pages/Dashboard/Admin/AdminManageRequests'
+import UpdateMeal from '../pages/Dashboard/Seller/UpdateMeal'
 
 export const router = createBrowserRouter([
   {
@@ -31,19 +35,19 @@ export const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
-        loader: async()=>fetch(`http://localhost:3000/meal`)
+        loader: async () => fetch(`http://localhost:3000/meal`)
       },
       {
-          path:"/meals",
-          element: <Meals></Meals>
+        path: "/meals",
+        element: <Meals></Meals>
       },
       {
         path: '/meal-details/:id',
-        element:<MealDetails></MealDetails>,
+        element: <MealDetails></MealDetails>,
       },
       {
-        path:'/payment-success',
-        element:<Payment></Payment>
+        path: '/payment-success',
+        element: <Payment></Payment>
       },
     ],
   },
@@ -64,7 +68,7 @@ export const router = createBrowserRouter([
             <Statistics />
           </PrivateRoute>
         ),
-      },    
+      },
       {
         path: 'create-meal',
         element: (
@@ -74,18 +78,26 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'my-inventory',
+        path: 'my-meals',
         element: (
           <PrivateRoute>
-            <MyInventory />
+            <MyMealsPage></MyMealsPage>
           </PrivateRoute>
         ),
+      },
+      {
+        path: 'update-meal/:id',   // add :id
+        element: (
+          <PrivateRoute>
+            <UpdateMeal />
+          </PrivateRoute>
+        )
       },
       {
         path: 'manage-users',
         element: (
           <PrivateRoute>
-           <ManageUsers></ManageUsers>
+            <ManageUsers></ManageUsers>
           </PrivateRoute>
         ),
       },
@@ -106,18 +118,22 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path:"favorite-meal",
-        element:<PrivateRoute><MyFavorite></MyFavorite></PrivateRoute>
+        path: "favorite-meal",
+        element: <PrivateRoute><MyFavorite></MyFavorite></PrivateRoute>
 
       },
       {
-        path:"my-review",
-        element:<MyReview></MyReview>
+        path: "my-review",
+        element: <MyReview></MyReview>
       },
       {
         path: 'manage-orders',
         element: <OrderRequests></OrderRequests>,
       },
+      {
+        path: 'manage-request',
+        element: <AdminManageRequests></AdminManageRequests>
+      }
     ],
   },
 ])
