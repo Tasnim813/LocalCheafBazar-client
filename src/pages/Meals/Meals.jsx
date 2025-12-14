@@ -1,21 +1,26 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import React, { useState } from 'react';
 import MealCart from './MealCart';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const Meals = () => {
-    const [sortOrder, setSortOrder] = useState('asc'); // default ascending
+    const axiosSecure = useAxiosSecure(); // JWT-enabled axios
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 8; // এখন প্রতি page এ 8 meals দেখাবে
 
-    const { data: meals = [], refetch } = useQuery({
-        queryKey: ['meals'],
+    const { data, isLoading, refetch } = useQuery({
+        queryKey: ['meals', currentPage],
         queryFn: async () => {
-            const result = await axios.get(`http://localhost:3000/meals`);
-            return result.data;
-        }
+            const res = await axiosSecure.get(`/meals?page=${currentPage}&limit=${itemsPerPage}`);
+            return res.data;
+        },
+        keepPreviousData: true,
     });
 
-    // Sorting function
-    const sortedMeals = [...meals].sort((a, b) => {
+    if (isLoading) return <p>Loading...</p>;
+
+    const sortedMeals = [...(data?.meals || [])].sort((a, b) => {
         if (sortOrder === 'asc') return a.price - b.price;
         return b.price - a.price;
     });
@@ -44,6 +49,19 @@ const Meals = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {sortedMeals.map(meal => (
                     <MealCart key={meal._id} meal={meal} />
+                ))}
+            </div>
+
+            {/* Pagination Buttons */}
+            <div className="flex gap-2 justify-center mt-4">
+                {Array.from({ length: data?.totalPages || 0 }, (_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => setCurrentPage(i + 1)}
+                        className={`px-3 py-1 rounded ${currentPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                    >
+                        {i + 1}
+                    </button>
                 ))}
             </div>
         </div>

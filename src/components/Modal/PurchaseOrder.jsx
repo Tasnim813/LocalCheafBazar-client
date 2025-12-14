@@ -3,27 +3,29 @@ import { useForm } from 'react-hook-form'
 import useAuth from '../../hooks/useAuth'
 import Swal from 'sweetalert2'
 import { useMutation } from '@tanstack/react-query'
-import axios from 'axios'
-
+import useAxiosSecure from '../../hooks/useAxiosSecure'
 
 const PurchaseOrder = ({ closeModal, isOpen, meal }) => {
+  const axiosSecure = useAxiosSecure() // JWT-enabled axios
   const { user } = useAuth()
-
   const { register, handleSubmit, watch } = useForm()
 
   const quantity = watch('quantity') || 1
-  const totalPrice = quantity * meal?.price
+  const totalPrice = quantity * (meal?.price || 0)
 
- 
+  // React Query mutation
   const { mutateAsync } = useMutation({
     mutationFn: async (orderData) => {
-      const res = await axios.post("http://localhost:3000/order", orderData)
+      const res = await axiosSecure.post('/order', orderData)
       return res.data
     }
   })
 
-
   const onSubmit = async () => {
+    if (!user?.email) {
+      return Swal.fire('Error', 'Please login first', 'error')
+    }
+
     Swal.fire({
       title: `Your total price is $${totalPrice}`,
       text: 'Do you want to confirm the order?',
@@ -33,32 +35,33 @@ const PurchaseOrder = ({ closeModal, isOpen, meal }) => {
       cancelButtonText: 'Cancel'
     }).then(async (result) => {
       if (result.isConfirmed) {
-
-       
         const orderData = {
-  mealName: meal?.foodName,
-  price: totalPrice,
-  quantity: quantity,
-  chefName: meal?.chefName,
-  chefId: meal?.chef?.uid || meal?.chefId,
-  paymentStatus: 'pending',
-  userEmail: user?.email,
-  userAddress: watch('userAddress'),
-  orderStatus: 'pending',
-  orderTime: new Date().toISOString(),
-  seller:{
-    name: user?.displayName,
-    email: user?.email
-  }
-}
+          mealName: meal?.foodName,
+          price: totalPrice,
+          quantity: quantity,
+          chefName: meal?.chefName,
+          chefId: meal?.chef?.uid || meal?.chefId,
+          paymentStatus: 'pending',
+          userEmail: user?.email,
+          userAddress: watch('userAddress'),
+          orderStatus: 'pending',
+          orderTime: new Date().toISOString(),
+          seller: {
+            name: user?.displayName,
+            email: user?.email
+          }
+        }
 
         console.log("Saving order:", orderData)
 
-        await mutateAsync(orderData)
-      
-
-        Swal.fire('Order placed successfully!', '', 'success')
-        closeModal()
+        try {
+          await mutateAsync(orderData)
+          Swal.fire('Order placed successfully!', '', 'success')
+          closeModal()
+        } catch (err) {
+          Swal.fire('Error', 'Failed to place order', 'error')
+          console.error(err)
+        }
       }
     })
   }
@@ -74,7 +77,6 @@ const PurchaseOrder = ({ closeModal, isOpen, meal }) => {
             </DialogTitle>
 
             <form onSubmit={handleSubmit(onSubmit)} className='mt-4 space-y-3'>
-
               <p className='text-sm text-gray-600'><strong>Meal:</strong> {meal?.foodName}</p>
               <p className='text-sm text-gray-600'><strong>Price:</strong> ${meal?.price}</p>
               <p className='text-sm text-gray-600'><strong>Chef ID:</strong> {meal?.chefId}</p>
@@ -102,7 +104,6 @@ const PurchaseOrder = ({ closeModal, isOpen, meal }) => {
                   Cancel
                 </button>
               </div>
-
             </form>
 
           </DialogPanel>

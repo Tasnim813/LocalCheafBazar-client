@@ -13,8 +13,10 @@ import MenuItem from './Menu/MenuItem'
 import AdminMenu from './Menu/AdminMenu'
 import SellerMenu from './Menu/SellerMenu'
 import CustomerMenu from './Menu/CustomerMenu'
+import useRole from '../../../hooks/useRole'
 
 const Sidebar = () => {
+  const [role,isRoleLoading]=useRole()
   const { logOut } = useAuth()
   const [isActive, setActive] = useState(false)
 
@@ -49,6 +51,9 @@ const Sidebar = () => {
           isActive && '-translate-x-full'
         }  md:translate-x-0  transition duration-200 ease-in-out`}
       >
+
+
+        
         <div className='flex flex-col h-full'>
           {/* Top Content */}
           <div>
@@ -63,6 +68,12 @@ const Sidebar = () => {
           {/* Middle Content */}
           <div className='flex flex-col justify-between flex-1 mt-6'>
             {/*  Menu Items */}
+
+             <MenuItem
+              icon={FcSettings}
+              label='Profile'
+              address='/dashboard/profile'
+            />
             <nav>
               {/* Common Menu */}
               <MenuItem
@@ -71,6 +82,10 @@ const Sidebar = () => {
                 address='/dashboard'
               />
               {/* Role-Based Menu */}
+              {/* {role==='customer' && }
+              
+              {role ==='chef' && }
+              {role=== 'admin' && } */}
               <CustomerMenu />
               <SellerMenu />
               <AdminMenu />
@@ -81,11 +96,7 @@ const Sidebar = () => {
           <div>
             <hr />
 
-            <MenuItem
-              icon={FcSettings}
-              label='Profile'
-              address='/dashboard/profile'
-            />
+           
             <button
               onClick={logOut}
               className='flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'

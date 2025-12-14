@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { IoBagCheckOutline } from 'react-icons/io5';
 import axios from 'axios';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const Payment = () => {
+    const axiosSecure=useAxiosSecure()
     const [searchParams] = useSearchParams();
     const sessionId = searchParams.get('session_id');
 
@@ -18,6 +20,17 @@ const Payment = () => {
                 .catch(err => console.error(err));
         }
     }, [sessionId]);
+
+
+    useEffect(() => {
+    if (sessionId && !hasPosted.current) {
+        hasPosted.current = true;
+        axiosSecure.post('/payment-success', { sessionId })  // <- axios → axiosSecure
+            .then(res => console.log(res.data))
+            .catch(err => console.error(err));
+    }
+}, [sessionId, axiosSecure]);
+
 
     return (
         <div>
