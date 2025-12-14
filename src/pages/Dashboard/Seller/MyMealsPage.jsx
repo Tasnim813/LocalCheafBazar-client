@@ -1,3 +1,4 @@
+import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import useAuth from '../../../hooks/useAuth'
@@ -8,11 +9,7 @@ const MyMealsPage = () => {
   const { user } = useAuth()
   const axiosSecure = useAxiosSecure()
 
-  const {
-    data: meals = [],
-    refetch,
-    isLoading,
-  } = useQuery({
+  const { data: meals = [], refetch, isLoading } = useQuery({
     queryKey: ['my-meals', user?.email],
     enabled: !!user?.email && !!user?.accessToken,
     queryFn: async () => {
@@ -22,7 +19,6 @@ const MyMealsPage = () => {
   })
   console.log(meals)
 
-  // 🔴 Delete Meal
   const handleDelete = async (id) => {
     const result = await Swal.fire({
       title: 'Are you sure?',
@@ -36,19 +32,10 @@ const MyMealsPage = () => {
 
     try {
       await axiosSecure.delete(`/meals/${id}`)
-      refetch()
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Deleted!',
-        text: 'Meal deleted successfully.',
-      })
+      refetch() // UI auto refresh
+      Swal.fire('Deleted!', 'Meal deleted successfully.', 'success')
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error!',
-        text: 'Failed to delete meal.',
-      })
+      Swal.fire('Error!', 'Failed to delete meal.', 'error')
     }
   }
 
@@ -57,56 +44,22 @@ const MyMealsPage = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {meals.map((meal) => (
-        <div
-          key={meal._id}
-          className="border rounded-lg shadow p-4 flex flex-col"
-        >
-          <img
-            src={meal.foodImage}
-            alt={meal.foodName}
-            className="h-48 w-full object-cover rounded"
-          />
+        <div key={meal._id} className="border rounded-lg shadow p-4 flex flex-col">
+          <img src={meal.foodImage
+} alt={meal.mealName} className="h-48 w-full object-cover rounded" />
 
-          <h2 className="text-xl font-semibold mt-2">
-            {meal.foodName}
-          </h2>
+          <h2 className="text-xl font-semibold mt-2">{meal.mealName}</h2>
+          <p className="text-sm text-gray-600">Chef: {meal.chefName}</p>
+          <p className="mt-1"><strong>Price:</strong> ${meal.price}</p>
+          <p><strong>Rating:</strong> {meal.rating || 'N/A'}</p>
+          <p className="text-sm"><strong>Ingredients:</strong> {meal.ingredients?.join(', ')}</p>
+          <p><strong>Delivery Time:</strong> {meal.
+estimatedDeliveryTime
+}</p>
 
-          <p className="text-sm text-gray-600">
-            Chef: {meal.chefName} ({meal.chefId})
-          </p>
-
-          <p className="mt-1">
-            <strong>Price:</strong> ${meal.price}
-          </p>
-
-          <p>
-            <strong>Rating:</strong> {meal.rating || 'N/A'}
-          </p>
-
-          <p className="text-sm">
-            <strong>Ingredients:</strong>{' '}
-            {meal.ingredients?.join(', ')}
-          </p>
-
-          <p>
-            <strong>Delivery Time:</strong> {meal.estimatedDeliveryTime}
-          </p>
-
-          {/* 🔘 Buttons */}
           <div className="mt-auto flex gap-2 pt-4">
-            <Link
-              to={`/dashboard/update-meal/${meal._id}`}
-              className="btn btn-sm btn-info flex-1"
-            >
-              Update
-            </Link>
-
-            <button
-              onClick={() => handleDelete(meal._id)}
-              className="btn btn-sm btn-error flex-1"
-            >
-              Delete
-            </button>
+            <Link to={`/dashboard/update-meal/${meal._id}`} className="btn btn-sm btn-info flex-1">Update</Link>
+            <button onClick={() => handleDelete(meal._id)} className="btn btn-sm btn-error flex-1">Delete</button>
           </div>
         </div>
       ))}
