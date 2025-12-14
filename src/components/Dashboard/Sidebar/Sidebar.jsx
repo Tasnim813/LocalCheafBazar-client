@@ -6,7 +6,7 @@ import logo from '../../../assets/images/logo-flat.png'
 import { GrLogout } from 'react-icons/gr'
 import { FcSettings } from 'react-icons/fc'
 import { AiOutlineBars } from 'react-icons/ai'
-import { BsGraphUp } from 'react-icons/bs'
+
 
 // User Menu
 import MenuItem from './Menu/MenuItem'
@@ -75,33 +75,25 @@ const Sidebar = () => {
               address='/dashboard/profile'
             />
             <nav>
-              {/* Common Menu */}
-              <MenuItem
-                icon={BsGraphUp}
-                label='Statistics'
-                address='/dashboard'
-              />
+    
               {/* Role-Based Menu */}
-              {/* {role==='customer' && }
+              {role=='customer' && <CustomerMenu />}
               
-              {role ==='chef' && }
-              {role=== 'admin' && } */}
-              <CustomerMenu />
-              <SellerMenu />
-              <AdminMenu />
+              {role =='chef' && <SellerMenu />}
+              {role== 'admin' && <AdminMenu />}
             </nav>
           </div>
 
           {/* Bottom Content */}
           <div>
-            <hr />
+         
 
            
             <button
               onClick={logOut}
               className='flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'
             >
-              <GrLogout className='w-5 h-5' />
+              <GrLogout className='w-5 ' />
 
               <span className='mx-4 font-medium'>Logout</span>
             </button>

@@ -4,23 +4,31 @@ import useAuth from '../../../hooks/useAuth'
 import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import useRole from '../../../hooks/useRole'
+import useStatus from '../../../hooks/useStatus'
 
 const Profile = () => {
   const { user } = useAuth()
   const axiosSecure = useAxiosSecure()
   const [requesting, setRequesting] = useState(false)
 
+  // Get role & status using hooks
+  const [role] = useRole()
+  const [status] = useStatus()
+
   // Fetch user profile
-const {data: profile=[]}=useQuery({
-  queryKey:['profile'],
-  queryFn:async()=>{
-    const result=await axios.get(`http://localhost:3000/users/${user?.email}`)
-    return result.data
-  }
-})
+  const { data: profile = {} } = useQuery({
+    queryKey: ['profile', user?.email],
+    queryFn: async () => {
+      const result = await axios.get(`http://localhost:3000/users/${user?.email}`)
+      return result.data
+    },
+    enabled: !!user?.email
+  })
+
   // Handle role request
   const handleRequest = async (type) => {
-    if (!profile.email) return; // safety check
+    if (!profile.email) return
     setRequesting(true)
     try {
       const res = await axiosSecure.post('/role-requests', {
@@ -38,15 +46,16 @@ const {data: profile=[]}=useQuery({
     }
   }
 
-  // if (isLoading) return <p className="text-center mt-10">Loading...</p>
-  // if (isError) return <p className="text-center mt-10 text-red-500">Error fetching profile</p>
-
-  const { name, email, image, address, role, status, chefId } = profile
+  const { name, email, image, address, chefId } = profile
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-xl rounded-xl">
       <div className="flex flex-col items-center">
-        <img src={image || user?.photoURL} alt={name} className="w-28 h-28 rounded-full object-cover mb-4" />
+        <img
+          src={image || user?.photoURL}
+          alt={name}
+          className="w-28 h-28 rounded-full object-cover mb-4"
+        />
         <h2 className="text-2xl font-bold">{name}</h2>
         <p className="text-gray-600">{email}</p>
         <p className="text-gray-600">📍 {address}</p>
@@ -58,7 +67,8 @@ const {data: profile=[]}=useQuery({
         </div>
 
         <div className="flex gap-4 mt-6">
-          {role !== 'chef' && role !== 'admin' && (
+          {/* Be a Chef Button */}
+          {role !== 'chef' && role !== 'admin' && status !== 'fraud' && (
             <button
               disabled={requesting}
               onClick={() => handleRequest('chef')}
@@ -67,7 +77,9 @@ const {data: profile=[]}=useQuery({
               Be a Chef
             </button>
           )}
-          {role !== 'admin' && (
+
+          {/* Be an Admin Button */}
+          {role !== 'admin' && status !== 'fraud' && (
             <button
               disabled={requesting}
               onClick={() => handleRequest('admin')}
