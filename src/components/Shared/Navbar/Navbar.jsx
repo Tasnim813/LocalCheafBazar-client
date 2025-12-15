@@ -5,20 +5,48 @@ import Container from '../Container';
 import useAuth from '../../../hooks/useAuth';
 import avatarImg from '../../../assets/images/placeholder.jpg';
 
+// Colors
+const PRIMARY_GRADIENT = 'linear-gradient(90deg, #A3E635 0%, #F97316 100%)';
+const TEXT_COLOR = '#1F2937'; // dark text
+
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const links = (
     <>
-      <NavLink to='/' className='mr-4 font-medium hover:text-lime-500'>
+      <NavLink
+        to='/'
+        className='mr-4 font-medium'
+        style={({ isActive }) => ({
+          background: isActive ? PRIMARY_GRADIENT : '',
+          WebkitBackgroundClip: isActive ? 'text' : '',
+          WebkitTextFillColor: isActive ? 'transparent' : TEXT_COLOR,
+        })}
+      >
         Home
       </NavLink>
-      <NavLink to='/meals' className='mr-4 font-medium hover:text-lime-500'>
+      <NavLink
+        to='/meals'
+        className='mr-4 font-medium'
+        style={({ isActive }) => ({
+          background: isActive ? PRIMARY_GRADIENT : '',
+          WebkitBackgroundClip: isActive ? 'text' : '',
+          WebkitTextFillColor: isActive ? 'transparent' : TEXT_COLOR,
+        })}
+      >
         Meals
       </NavLink>
       {user && (
-        <NavLink to='/dashboard' className='mr-4 font-medium hover:text-lime-500'>
+        <NavLink
+          to='/dashboard'
+          className='mr-4 font-medium'
+          style={({ isActive }) => ({
+            background: isActive ? PRIMARY_GRADIENT : '',
+            WebkitBackgroundClip: isActive ? 'text' : '',
+            WebkitTextFillColor: isActive ? 'transparent' : TEXT_COLOR,
+          })}
+        >
           Dashboard
         </NavLink>
       )}
@@ -44,16 +72,32 @@ const Navbar = () => {
                 {!user && (
                   <>
                     <li>
-                      <Link to='/login'>Login</Link>
+                      <Link
+                        to='/login'
+                        className='px-4 py-2 rounded-md'
+                        style={{ background: PRIMARY_GRADIENT, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+                      >
+                        Login
+                      </Link>
                     </li>
                     <li>
-                      <Link to='/signup'>Sign Up</Link>
+                      <Link
+                        to='/signup'
+                        className='px-4 py-2 rounded-md'
+                        style={{ background: PRIMARY_GRADIENT, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+                      >
+                        Sign Up
+                      </Link>
                     </li>
                   </>
                 )}
                 {user && (
                   <li>
-                    <div onClick={logOut} className='cursor-pointer'>
+                    <div
+                      onClick={logOut}
+                      className='cursor-pointer px-4 py-2 rounded-md'
+                      style={{ background: PRIMARY_GRADIENT, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+                    >
                       Logout
                     </div>
                   </li>
@@ -62,8 +106,17 @@ const Navbar = () => {
             </div>
 
             {/* Logo */}
-            <Link to='/' className='text-2xl md:text-3xl font-bold'>
-              LocalChefBazar
+            <Link
+              to='/' 
+              className='text-2xl md:text-3xl font-bold flex'
+              style={{
+                background: PRIMARY_GRADIENT,
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+            <img className='W-10 h-10' src="https://i.ibb.co.com/ymfctdJV/chef-restaurant5078-logowik-com.webp" alt="" />
+              <p>LocalChefBazar</p>
             </Link>
           </div>
 
@@ -91,13 +144,19 @@ const Navbar = () => {
               <div className='hidden md:flex gap-2'>
                 <Link
                   to='/login'
-                  className='px-4 py-2 border rounded-md hover:bg-lime-500 hover:text-white transition'
+                  className='px-4 py-2 border rounded-md transition'
+                  style={{ borderColor: '#A3E635', background: 'transparent' }}
+                  onMouseEnter={(e) => (e.target.style.background = PRIMARY_GRADIENT)}
+                  onMouseLeave={(e) => (e.target.style.background = 'transparent')}
                 >
                   Login
                 </Link>
                 <Link
                   to='/signup'
-                  className='px-4 py-2 border rounded-md hover:bg-lime-500 hover:text-white transition'
+                  className='px-4 py-2 border rounded-md transition'
+                  style={{ borderColor: '#A3E635', background: 'transparent' }}
+                  onMouseEnter={(e) => (e.target.style.background = PRIMARY_GRADIENT)}
+                  onMouseLeave={(e) => (e.target.style.background = 'transparent')}
                 >
                   Sign Up
                 </Link>
@@ -111,12 +170,14 @@ const Navbar = () => {
                   to='/dashboard'
                   className='block px-4 py-2 hover:bg-neutral-100 transition'
                   onClick={() => setIsOpen(false)}
+                  style={{ background: PRIMARY_GRADIENT, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
                 >
                   Dashboard
                 </Link>
                 <div
                   onClick={logOut}
                   className='block px-4 py-2 hover:bg-neutral-100 transition cursor-pointer'
+                  style={{ background: PRIMARY_GRADIENT, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
                 >
                   Logout
                 </div>

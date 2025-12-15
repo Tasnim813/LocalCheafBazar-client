@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
-        loader: async () => fetch(`http://localhost:3000/meal`)
+        loader: async () => fetch(`http://localhost:3000/meals`)
       },
       {
         path: "/meals",

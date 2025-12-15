@@ -7,7 +7,7 @@ const Meals = () => {
     const axiosSecure = useAxiosSecure(); // JWT-enabled axios
     const [sortOrder, setSortOrder] = useState('asc');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 8; // এখন প্রতি page এ 8 meals দেখাবে
+    const itemsPerPage = 9; // এখন প্রতি page এ 8 meals দেখাবে
 
     const { data, isLoading, refetch } = useQuery({
         queryKey: ['meals', currentPage],
@@ -46,7 +46,7 @@ const Meals = () => {
             </div>
 
             {/* Meals Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {sortedMeals.map(meal => (
                     <MealCart key={meal._id} meal={meal} />
                 ))}
