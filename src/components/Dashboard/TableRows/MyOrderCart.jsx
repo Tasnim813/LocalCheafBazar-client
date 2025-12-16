@@ -1,5 +1,6 @@
 import useAuth from "../../../hooks/useAuth"
 import useAxiosSecure from "../../../hooks/useAxiosSecure"
+import { motion } from "framer-motion"
 
 const MyOrderCart = ({ order }) => {
   const axiosSecure = useAxiosSecure() // JWT-enabled axios
@@ -35,9 +36,7 @@ const MyOrderCart = ({ order }) => {
     }
 
     try {
-      // Use axiosSecure for JWT-protected POST
       const { data } = await axiosSecure.post("/create-checkout-session", paymentInfo)
-      console.log("Stripe URL:", data.url)
       window.location.href = data.url
     } catch (err) {
       console.error("Payment error:", err.response?.data || err.message)
@@ -45,7 +44,6 @@ const MyOrderCart = ({ order }) => {
     }
   }
 
-  // Order status colors
   const statusColor = {
     pending: "bg-yellow-100 text-yellow-800",
     accepted: "bg-green-100 text-green-800",
@@ -53,10 +51,15 @@ const MyOrderCart = ({ order }) => {
   }
 
   return (
-    <div className="border rounded-2xl shadow-xl p-6 mb-6 bg-gradient-to-r from-purple-50 to-pink-50 hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="border rounded-2xl shadow-xl p-6 mb-6 bg-gradient-to-r from-lime-100 to-orange-100 hover:shadow-2xl transition-transform duration-300 transform hover:-translate-y-1 hover:scale-105"
+    >
       <div className="flex items-start space-x-6">
         <div className="flex-1">
-          <h3 className="text-2xl font-extrabold text-purple-700 mb-2">
+          <h3 className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-lime-500 to-orange-500 mb-2">
             🍽 {mealName}
           </h3>
           <p className="text-gray-700 mb-1">👨‍🍳 Chef: {chefName}</p>
@@ -79,7 +82,7 @@ const MyOrderCart = ({ order }) => {
             ) : (
               <button
                 onClick={handlePayment}
-                className="px-5 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl hover:from-pink-500 hover:to-purple-500 transition-all duration-300 shadow-md"
+                className="px-5 py-2 bg-gradient-to-r from-lime-500 to-orange-500 text-white font-semibold rounded-xl hover:from-orange-500 hover:to-lime-500 transition-all duration-300 shadow-md"
               >
                 Pay Now
               </button>
@@ -87,7 +90,7 @@ const MyOrderCart = ({ order }) => {
           </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

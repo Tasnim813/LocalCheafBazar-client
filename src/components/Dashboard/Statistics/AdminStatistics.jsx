@@ -13,6 +13,7 @@ import {
   Cell,
   ResponsiveContainer,
 } from 'recharts'
+import { motion } from 'framer-motion'
 
 const AdminStatistics = () => {
   const axiosSecure = useAxiosSecure()
@@ -37,37 +38,50 @@ const AdminStatistics = () => {
 
   const paymentData = [{ name: 'Total Payments', amount: totalPayments }]
 
-  const COLORS = ['#FF8042', '#0088FE']
+  const COLORS = ['#84cc16', '#f97316'] // lime & orange
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
-      <h2 className="text-2xl font-bold mb-4">Platform Statistics</h2>
+    <motion.div
+      className="p-6 max-w-6xl mx-auto space-y-6"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <h2 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-lime-500 to-orange-500">
+        Platform Statistics
+      </h2>
 
       {/* Top Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="p-4 bg-white shadow rounded text-center">
-          <h3 className="text-gray-500">Total Users</h3>
-          <p className="text-2xl font-bold">{totalUsers}</p>
-        </div>
-        <div className="p-4 bg-white shadow rounded text-center">
-          <h3 className="text-gray-500">Total Payments</h3>
-          <p className="text-2xl font-bold">${totalPayments}</p>
-        </div>
-        <div className="p-4 bg-white shadow rounded text-center">
-          <h3 className="text-gray-500">Orders Pending</h3>
-          <p className="text-2xl font-bold">{ordersPending}</p>
-        </div>
-        <div className="p-4 bg-white shadow rounded text-center">
-          <h3 className="text-gray-500">Orders Delivered</h3>
-          <p className="text-2xl font-bold">{ordersDelivered}</p>
-        </div>
+        {[
+          { title: 'Total Users', value: totalUsers },
+          { title: 'Total Payments', value: `$${totalPayments}` },
+          { title: 'Orders Pending', value: ordersPending },
+          { title: 'Orders Delivered', value: ordersDelivered },
+        ].map((card, index) => (
+          <motion.div
+            key={index}
+            className="p-4 bg-lime-50 shadow rounded text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 * index, duration: 0.5 }}
+          >
+            <h3 className="text-lime-700">{card.title}</h3>
+            <p className="text-2xl font-bold text-lime-900">{card.value}</p>
+          </motion.div>
+        ))}
       </div>
 
       {/* Charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Orders Pie Chart */}
-        <div className="bg-white shadow rounded p-4">
-          <h3 className="text-lg font-semibold mb-2">Orders Status</h3>
+        <motion.div
+          className="bg-lime-50 shadow rounded p-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <h3 className="text-lg font-semibold mb-2 text-lime-800">Orders Status</h3>
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
@@ -77,7 +91,6 @@ const AdminStatistics = () => {
                 cx="50%"
                 cy="50%"
                 outerRadius={80}
-                fill="#8884d8"
                 label
               >
                 {ordersData.map((entry, index) => (
@@ -88,23 +101,28 @@ const AdminStatistics = () => {
               <Legend />
             </PieChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
 
         {/* Payments Bar Chart */}
-        <div className="bg-white shadow rounded p-4">
-          <h3 className="text-lg font-semibold mb-2">Payments</h3>
+        <motion.div
+          className="bg-lime-50 shadow rounded p-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        >
+          <h3 className="text-lg font-semibold mb-2 text-lime-800">Payments</h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={paymentData}>
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="amount" fill="#82ca9d" />
+              <Bar dataKey="amount" fill="#84cc16" />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

@@ -27,22 +27,18 @@ const Sidebar = () => {
     <>
       {/* Mobile Navbar */}
       <div className='bg-gray-100 text-gray-800 flex justify-between items-center md:hidden'>
-        <Link
-          to='/'
-          className='flex items-center gap-2 p-4 text-2xl font-bold'
-          style={{
-            background: PRIMARY_GRADIENT,
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
-        >
-          <img
-            className='w-10 h-10 bg-none'
-            src='https://i.ibb.co/ymfctdJV/chef-restaurant5078-logowik-com.webp'
-            alt='logo'
-          />
-          <p>LocalChefBazar</p>
-        </Link>
+       
+         <Link
+              to='/'
+              className='text-2xl md:text-3xl font-bold flex items-center gap-2 bg-clip-text text-transparent bg-gradient-to-r from-lime-500 to-orange-500'
+            >
+              <img
+                className='w-10 h-10'
+                src='https://i.ibb.co.com/ymfctdJV/chef-restaurant5078-logowik-com.webp'
+                alt='Logo'
+              />
+              LocalChefBazar
+            </Link>
 
         <button
           onClick={() => setActive(!isActive)}
@@ -62,7 +58,7 @@ const Sidebar = () => {
           {/* Top */}
           <div>
             <div className='hidden md:flex justify-center  rounded-lg  shadow'>
-              <Link
+              {/* <Link
                 to='/'
                 className='flex items-center gap-2 text-2xl font-bold'
                 style={{
@@ -77,7 +73,15 @@ const Sidebar = () => {
                   alt='logo'
                 />
                 LocalChefBazar
-              </Link>
+              </Link> */}
+
+               <Link
+              to='/'
+              className='text-2xl md:text-3xl font-bold flex items-center gap-2 bg-clip-text text-transparent bg-gradient-to-r from-lime-500 to-orange-500'
+            >
+              
+              LocalChefBazar
+            </Link>
             </div>
 
             {/* Profile */}

@@ -6,6 +6,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import useAuth from '../../../hooks/useAuth'
 import Swal from 'sweetalert2'
 import { UploadImage } from '../../../utillis'
+import { motion } from 'framer-motion'
 
 const UpdateMeal = () => {
   const { id } = useParams()
@@ -14,10 +15,10 @@ const UpdateMeal = () => {
   const queryClient = useQueryClient()
   const { user } = useAuth()
   const [previewImage, setPreviewImage] = useState('')
+  const [isUpdating, setIsUpdating] = useState(false)
 
-  const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm()
+  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm()
 
-  // 🔹 Fetch single meal
   const { data: meal, isLoading } = useQuery({
     queryKey: ['meal', id],
     queryFn: async () => {
@@ -27,63 +28,40 @@ const UpdateMeal = () => {
     enabled: !!id,
   })
 
-  // 🔹 Prefill form whenever meal changes
   useEffect(() => {
     if (meal) {
       const defaultValues = {
-        mealName: meal.foodName,
-        price: meal.price,
-        rating: meal.rating,
-        ingredients: meal.ingredients.join(', '),
-        deliveryTime: meal.estimatedDeliveryTime,
-        image: meal.foodImage
+        mealName: meal.foodName || '',
+        price: meal.price || '',
+        rating: meal.rating || '',
+        ingredients: meal.ingredients ? meal.ingredients.join(', ') : '',
+        deliveryTime: meal.estimatedDeliveryTime || '',
+        image: meal.foodImage || ''
       }
-      reset(defaultValues) // <-- Use reset to properly prefill form
-      setPreviewImage(meal.foodImage)
+      reset(defaultValues)
+      setPreviewImage(meal.foodImage || '')
     }
   }, [meal, reset])
 
-  // 🔹 Preview new image (only if File)
-  const foodImageFile = watch('foodImage')
-
-
-
-
-  useEffect(() => {
-  if (meal) {
-    const defaultValues = {
-      mealName: meal.foodName || '',
-      price: meal.price || '',
-      rating: meal.rating || '',
-      ingredients: meal.ingredients ? meal.ingredients.join(', ') : '',
-      deliveryTime: meal.estimatedDeliveryTime || '',
-      image: meal.foodImage || ''
-    }
-    reset(defaultValues) // <-- এটা form কে prefill করবে
-    setPreviewImage(meal.foodImage || '')
-  }
-}, [meal, reset])
-
-
-  // 🔹 Mutation for updating meal
   const mutation = useMutation({
     mutationFn: async (updatedMeal) => axiosSecure.patch(`/meals/${id}`, updatedMeal),
     onSuccess: () => {
       Swal.fire('Success', 'Meal updated successfully!', 'success')
-
-      if(user?.email) queryClient.invalidateQueries(['my-meals', user.email])
+      if (user?.email) queryClient.invalidateQueries(['my-meals', user.email])
       queryClient.invalidateQueries(['meal', id])
-
+      setIsUpdating(false)
       navigate('/dashboard/my-meals')
     },
     onError: (err) => {
       console.error(err)
       Swal.fire('Error', 'Failed to update meal', 'error')
+      setIsUpdating(false)
     },
   })
 
   const onSubmit = async (data) => {
     try {
+      setIsUpdating(true)
       let imageUrl = meal.foodImage
 
       if (data.foodImage && data.foodImage.length > 0 && data.foodImage[0] instanceof File) {
@@ -108,14 +86,20 @@ const UpdateMeal = () => {
     } catch (err) {
       console.error(err)
       Swal.fire('Error', 'Failed to update meal', 'error')
+      setIsUpdating(false)
     }
   }
 
-  if (isLoading) return <p className="text-center">Loading...</p>
+  if (isLoading) return <p className="text-center text-gray-500 mt-10">Loading meal...</p>
 
   return (
-    <div className="max-w-xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Update Meal</h2>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="max-w-xl mx-auto p-4 bg-gradient-to-r from-lime-50 to-orange-50 rounded-xl shadow-lg"
+    >
+      <h2 className="text-2xl font-bold mb-4 text-orange-500">Update Meal</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <input
@@ -163,14 +147,13 @@ const UpdateMeal = () => {
             <div className="flex flex-col w-max mx-auto text-center">
               <label>
                 <input type="file" accept="image/*" className="hidden" {...register('foodImage')} />
-                <div className="bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-600">
+                <div className="bg-gradient-to-r from-lime-500 to-orange-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:from-orange-500 hover:to-lime-500 transition-all duration-300">
                   Upload New Image
                 </div>
               </label>
             </div>
           </div>
 
-          {/* Preview Image */}
           {previewImage && (
             <img
               src={previewImage}
@@ -180,9 +163,19 @@ const UpdateMeal = () => {
           )}
         </div>
 
-        <button type="submit" className="btn btn-primary mt-2">Update Meal</button>
+        <button
+          type="submit"
+          disabled={isUpdating}
+          className={`w-full py-2 rounded text-white font-semibold transition-all duration-300
+            ${isUpdating
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-gradient-to-r from-lime-500 to-orange-500 hover:from-orange-500 hover:to-lime-500'
+            }`}
+        >
+          {isUpdating ? 'Updating...' : 'Update Meal'}
+        </button>
       </form>
-    </div>
+    </motion.div>
   )
 }
 

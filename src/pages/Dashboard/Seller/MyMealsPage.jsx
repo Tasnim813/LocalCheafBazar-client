@@ -4,6 +4,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import useAuth from '../../../hooks/useAuth'
 import Swal from 'sweetalert2'
 import { Link } from 'react-router'
+import { motion } from 'framer-motion'
 
 const MyMealsPage = () => {
   const { user } = useAuth()
@@ -17,7 +18,6 @@ const MyMealsPage = () => {
       return res.data
     },
   })
-  console.log(meals)
 
   const handleDelete = async (id) => {
     const result = await Swal.fire({
@@ -32,36 +32,67 @@ const MyMealsPage = () => {
 
     try {
       await axiosSecure.delete(`/meals/${id}`)
-      refetch() // UI auto refresh
+      refetch()
       Swal.fire('Deleted!', 'Meal deleted successfully.', 'success')
     } catch (error) {
       Swal.fire('Error!', 'Failed to delete meal.', 'error')
     }
   }
 
-  if (isLoading) return <p className="text-center">Loading...</p>
+  if (isLoading)
+    return <p className="text-center text-lg text-gray-500 mt-10">Loading your meals...</p>
+
+  if (meals.length === 0)
+    return <p className="text-center text-lg text-gray-500 mt-10">You have no meals yet. 🍽</p>
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
       {meals.map((meal) => (
-        <div key={meal._id} className="border rounded-lg shadow p-4 flex flex-col">
-          <img src={meal.foodImage
-} alt={meal.mealName} className="h-48 w-full object-cover rounded" />
+        <motion.div
+          key={meal._id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="border rounded-lg shadow p-4 flex flex-col bg-gradient-to-r from-lime-50 to-orange-50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+        >
+          <img
+            src={meal.foodImage}
+            alt={meal.mealName}
+            className="h-48 w-full object-cover rounded mb-3"
+          />
 
-          <h2 className="text-xl font-semibold mt-2">{meal.mealName}</h2>
-          <p className="text-sm text-gray-600">Chef: {meal.chefName}</p>
-          <p className="mt-1"><strong>Price:</strong> ${meal.price}</p>
-          <p><strong>Rating:</strong> {meal.rating || 'N/A'}</p>
-          <p className="text-sm"><strong>Ingredients:</strong> {meal.ingredients?.join(', ')}</p>
-          <p><strong>Delivery Time:</strong> {meal.
-estimatedDeliveryTime
-}</p>
+          <h2 className="text-xl font-semibold mb-1 text-purple-700">{meal.mealName}</h2>
+          <p className="text-sm text-gray-600 mb-1">Chef: {meal.chefName}</p>
+          <p className="mb-1">
+            <strong>Price:</strong>{' '}
+            <span className="text-green-600 font-semibold">${meal.price}</span>
+          </p>
+          <p className="mb-1">
+            <strong>Rating:</strong>{' '}
+            <span className="text-yellow-600">{meal.rating || 'N/A'}</span>
+          </p>
+          <p className="text-sm mb-1">
+            <strong>Ingredients:</strong> {meal.ingredients?.join(', ')}
+          </p>
+          <p className="mb-3">
+            <strong>Delivery Time:</strong> {meal.estimatedDeliveryTime}
+          </p>
 
           <div className="mt-auto flex gap-2 pt-4">
-            <Link to={`/dashboard/update-meal/${meal._id}`} className="btn btn-sm btn-info flex-1">Update</Link>
-            <button onClick={() => handleDelete(meal._id)} className="btn btn-sm btn-error flex-1">Delete</button>
+            <Link
+              to={`/dashboard/update-meal/${meal._id}`}
+              className="flex-1 px-3 py-2 bg-gradient-to-r from-lime-500 to-orange-500 text-white rounded hover:from-orange-500 hover:to-lime-500 text-center transition-all duration-300"
+            >
+              Update
+            </Link>
+            <button
+              onClick={() => handleDelete(meal._id)}
+              className="flex-1 px-3 py-2 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded hover:from-pink-500 hover:to-red-500 transition-all duration-300"
+            >
+              Delete
+            </button>
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   )

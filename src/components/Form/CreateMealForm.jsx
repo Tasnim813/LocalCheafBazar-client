@@ -6,9 +6,10 @@ import Heading from '../Shared/Heading'
 import Button from '../Shared/Button/Button'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import { motion } from 'framer-motion'
 
 const CreateMealForm = () => {
-  const { user } = useAuth() // logged-in chef
+  const { user } = useAuth()
 
   const {
     register,
@@ -29,11 +30,7 @@ const CreateMealForm = () => {
     try {
       const { foodName, chefName, foodImage, price, ingredients, estimatedDeliveryTime, chefExperience } = data
       const imageFile = foodImage[0]
-
-      // Upload image
       const imageURL = await UploadImage(imageFile)
-
-      // Prepare meal data
       const mealData = {
         foodName,
         chefName,
@@ -43,16 +40,11 @@ const CreateMealForm = () => {
         ingredients: ingredients.split(',').map((item) => item.trim()),
         estimatedDeliveryTime,
         chefExperience,
-        chefId: user?.uid, // <-- Automatically assign logged-in chef UID
+        chefId: user?.uid,
         userEmail: user?.email,
         createdAt: new Date(),
       }
-
-      console.log('Meal data to save:', mealData)
-
-      // Save to backend
       await mutateAsync(mealData)
-
       toast.success('Meal created successfully!')
       reset()
     } catch (err) {
@@ -62,8 +54,16 @@ const CreateMealForm = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-lg">
-      <Heading title="Create New Meal" subtitle="Add a new meal to the platform" />
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="max-w-3xl mx-auto p-6 bg-gradient-to-r from-lime-50 to-orange-50 rounded-xl shadow-lg"
+    >
+      <Heading
+        title="Create New Meal"
+        subtitle="Add a new meal to the platform"
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-6">
 
@@ -103,7 +103,7 @@ const CreateMealForm = () => {
                   className="hidden"
                   {...register('foodImage', { required: 'Image is required' })}
                 />
-                <div className="bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-600">
+                <div className="bg-gradient-to-r from-lime-500 to-orange-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:from-orange-500 hover:to-lime-500 transition-all duration-300">
                   Upload
                 </div>
                 {errors.foodImage && <p className="text-red-500">{errors.foodImage.message}</p>}
@@ -163,7 +163,7 @@ const CreateMealForm = () => {
           {errors.chefExperience && <p className="text-red-500">{errors.chefExperience.message}</p>}
         </div>
 
-        {/* User Email (Read-only) */}
+        {/* User Email */}
         <div>
           <label className="font-semibold">User Email</label>
           <input
@@ -175,9 +175,13 @@ const CreateMealForm = () => {
         </div>
 
         {/* Submit */}
-        <Button label="Create Meal" type="submit" />
+        <Button
+          label="Create Meal"
+          type="submit"
+          className="bg-gradient-to-r from-lime-500 to-orange-500 hover:from-orange-500 hover:to-lime-500 text-white"
+        />
       </form>
-    </div>
+    </motion.div>
   )
 }
 

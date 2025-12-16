@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import MealCart from './MealCart';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import axios from 'axios';
 
 const Meals = () => {
     const axiosSecure = useAxiosSecure(); // JWT-enabled axios
@@ -12,7 +13,7 @@ const Meals = () => {
     const { data, isLoading, refetch } = useQuery({
         queryKey: ['meals', currentPage],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/meals?page=${currentPage}&limit=${itemsPerPage}`);
+            const res = await axios.get(`http://localhost:3000/meals?page=${currentPage}&limit=${itemsPerPage}`);
             return res.data;
         },
         keepPreviousData: true,

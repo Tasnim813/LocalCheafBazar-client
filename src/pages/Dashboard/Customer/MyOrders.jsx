@@ -19,14 +19,21 @@ const MyOrders = () => {
     enabled: !!user?.email, // only fetch if email exists
   })
 
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading) 
+    return <p className="text-center mt-10 text-lime-600 font-semibold">Loading your orders...</p>
 
   return (
-    <div className='container mx-auto px-4 sm:px-8 grid grid-cols-3 gap-4'>
+    <div className='container mx-auto px-4 sm:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
       {orders.length > 0 ? (
-        orders.map(order => <MyOrderCart key={order._id} order={order} />)
+        orders.map(order => (
+          <MyOrderCart
+            key={order._id}
+            order={order}
+            className="bg-white shadow-lg rounded-xl p-4 hover:shadow-xl transition duration-300"
+          />
+        ))
       ) : (
-        <p className='col-span-3 text-center'>No orders found.</p>
+        <p className='col-span-3 text-center text-gray-500 mt-10'>No orders found.</p>
       )}
     </div>
   )

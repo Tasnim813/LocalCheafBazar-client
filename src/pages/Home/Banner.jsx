@@ -4,22 +4,22 @@ import { Typewriter } from 'react-simple-typewriter'
 
 const slides = [
   {
-    img: "https://i.ibb.co/Tx60pB1m/imgi-13-woman-controlling-smart-devices-with-a-digital-tablet-at-home-1024x684.jpg",
-    title: "Plan Your Habits",
-    subtitle: "Track your daily routines and build strong habits.",
-    cta: "Start Tracking",
+    img: "https://i.ibb.co.com/mF28Fs4D/tasty-chicken-kid-friendly-recipes-a-culinary-adventure-for-little-chefs-20af302a-e960-4fba-806d-50d.webp",
+    title: "Fresh Ingredients Delivered",
+    subtitle: "Get farm-fresh ingredients directly to your kitchen with LocalChefBazar.",
+    cta: "Shop Fresh Now",
   },
   {
-    img: "https://i.ibb.co/vCJ7V3p8/7-1-650x650.webp",
-    title: "Stay Healthy",
-    subtitle: "Maintain fitness and wellness with daily tracking.",
-    cta: "Add Habit Now",
+    img: "https://i.ibb.co.com/pjVZj5KC/skilled-sushi-chef-arranges-vibrant-pieces-slate-platter-bright-kitchen-expert-artfully-prepares-col.webp",
+    title: "Discover Chef Recipes",
+    subtitle: "Explore a variety of chef-curated recipes to cook delicious meals at home.",
+    cta: "Explore Recipes",
   },
   {
-    img: "https://i.ibb.co/rNHy3kt/imgi-12-couple-relaxing-with-at-home.jpg",
-    title: "Boost Productivity",
-    subtitle: "Focus on your tasks and achieve your goals consistently.",
-    cta: "Explore Habits",
+    img: "https://i.ibb.co/YFWC0732/images-7.jpg",
+    title: "Cooking Made Easy",
+    subtitle: "From beginner to pro, LocalChefBazar makes cooking simple and fun.",
+    cta: "Start Cooking",
   },
 ]
 
@@ -35,7 +35,7 @@ const Banner = () => {
   }, [])
 
   return (
-    <div className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] overflow-hidden">
+    <div className="relative mt-[-30px] w-full h-[60vh] sm:h-[70vh] md:h-[80vh] overflow-hidden">
       {slides.map(
         (slide, index) =>
           index === current && (
@@ -78,8 +78,8 @@ const Banner = () => {
                 </motion.p>
 
                 <motion.button
-                  className="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-xl shadow-lg"
-                  whileHover={{ scale: 1.1 }}
+                  className="px-6 py-2 font-semibold rounded-xl shadow-lg text-white bg-gradient-to-r from-lime-500 to-orange-500 hover:from-lime-400 hover:to-orange-400 transition"
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   {slide.cta}
