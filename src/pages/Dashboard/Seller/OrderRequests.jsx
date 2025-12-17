@@ -11,7 +11,7 @@ const OrderRequests = () => {
     enabled: !!user?.uid,
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:3000/chef-orders/${user.uid}`
+        `https://localchefbazar-server-mauve.vercel.app/chef-orders/${user.uid}`
       );
       return res.data;
     },
@@ -20,7 +20,7 @@ const OrderRequests = () => {
 
   const updateStatus = async (id, status) => {
     await axios.patch(
-      `http://localhost:3000/order-status/${id}`,
+      `https://localchefbazar-server-mauve.vercel.app/order-status/${id}`,
       { orderStatus: status }
     );
     refetch();

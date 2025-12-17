@@ -22,7 +22,7 @@ const MealDetails = () => {
     queryKey: ['meal', id],
     queryFn: async () => {
       if (!id) return {}
-      const res = await axios.get(`http://localhost:3000/meals/${id}`)
+      const res = await axios.get(`https://localchefbazar-server-mauve.vercel.app/meals/${id}`)
       return res.data
     },
     enabled: !!id,

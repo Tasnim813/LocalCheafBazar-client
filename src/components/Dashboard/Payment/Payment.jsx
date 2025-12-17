@@ -15,7 +15,7 @@ const Payment = () => {
     useEffect(() => {
         if (sessionId && !hasPosted.current) {
             hasPosted.current = true;
-            axios.post(`http://localhost:3000/payment-success`, { sessionId })
+            axios.post(`https://localchefbazar-server-mauve.vercel.app/payment-success`, { sessionId })
                 .then(res => console.log(res.data))
                 .catch(err => console.error(err));
         }

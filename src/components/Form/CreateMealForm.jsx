@@ -20,7 +20,7 @@ const CreateMealForm = () => {
   } = useForm()
 
   const { mutateAsync } = useMutation({
-    mutationFn: async (payload) => await axios.post('http://localhost:3000/meals', payload),
+    mutationFn: async (payload) => await axios.post('https://localchefbazar-server-mauve.vercel.app/meals', payload),
     onMutate: (payload) => console.log('Posting data:', payload),
     onSuccess: (data) => console.log('Meal created:', data),
     onError: (error) => console.error(error),

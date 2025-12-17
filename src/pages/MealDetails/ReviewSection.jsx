@@ -16,7 +16,7 @@ const ReviewSection = ({ foodId, meal }) => {
   // fetch reviews
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/reviews/${foodId}`)
+      .get(`https://localchefbazar-server-mauve.vercel.app/reviews/${foodId}`)
       .then((res) => setReviews(res.data))
       .catch((err) => console.error(err));
   }, [foodId]);
@@ -35,7 +35,7 @@ const ReviewSection = ({ foodId, meal }) => {
     };
 
     try {
-      const res = await axios.post("http://localhost:3000/reviews", reviewData);
+      const res = await axios.post("https://localchefbazar-server-mauve.vercel.app/reviews", reviewData);
 
       if (res.data?.insertedId) {
         setReviews([

@@ -26,6 +26,10 @@ import MyMealsPage from '../pages/Dashboard/Seller/MyMealsPage'
 
 import UpdateMeal from '../pages/Dashboard/Seller/UpdateMeal'
 import ManageRequests from '../pages/Dashboard/Admin/ManageRequests'
+import ChefRoute from './ChefRoute'
+import AdminRoute from './AdminRoute'
+import FraudRoute from './FraudRoute'
+
 
 export const router = createBrowserRouter([
   {
@@ -36,7 +40,7 @@ export const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
-        loader: async () => fetch(`http://localhost:3000/meals`)
+        loader: async () => fetch(`https://localchefbazar-server-mauve.vercel.app/meals`)
       },
       {
         path: "/meals",
@@ -44,7 +48,9 @@ export const router = createBrowserRouter([
       },
       {
         path: '/meal-details/:id',
-        element: <MealDetails></MealDetails>,
+        element: <PrivateRoute>
+          <MealDetails></MealDetails>
+        </PrivateRoute>,
       },
       {
         path: '/payment-success',
@@ -74,7 +80,14 @@ export const router = createBrowserRouter([
         path: 'create-meal',
         element: (
           <PrivateRoute>
-            <AddPlant />
+            <ChefRoute>
+              <FraudRoute>
+                <AddPlant />
+
+              </FraudRoute>
+
+
+            </ChefRoute>
           </PrivateRoute>
         ),
       },
@@ -82,7 +95,10 @@ export const router = createBrowserRouter([
         path: 'my-meals',
         element: (
           <PrivateRoute>
-            <MyMealsPage></MyMealsPage>
+            <ChefRoute>
+              <MyMealsPage></MyMealsPage>
+            </ChefRoute>
+
           </PrivateRoute>
         ),
       },
@@ -98,7 +114,10 @@ export const router = createBrowserRouter([
         path: 'manage-users',
         element: (
           <PrivateRoute>
-            <ManageUsers></ManageUsers>
+            <AdminRoute>
+              <ManageUsers></ManageUsers>
+            </AdminRoute>
+
           </PrivateRoute>
         ),
       },
@@ -106,7 +125,10 @@ export const router = createBrowserRouter([
         path: 'static-page',
         element: (
           <PrivateRoute>
-            <Statistics></Statistics>
+            <AdminRoute>
+              <Statistics></Statistics>
+            </AdminRoute>
+
           </PrivateRoute>
         ),
       },
@@ -129,11 +151,16 @@ export const router = createBrowserRouter([
       },
       {
         path: 'manage-orders',
-        element: <OrderRequests></OrderRequests>,
+        element: <ChefRoute>
+          <OrderRequests></OrderRequests>
+        </ChefRoute>,
       },
       {
         path: 'manage-request',
-        element: <ManageRequests></ManageRequests>
+        element: <AdminRoute>
+          <ManageRequests></ManageRequests>
+
+        </AdminRoute>
       }
     ],
   },

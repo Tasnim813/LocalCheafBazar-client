@@ -12,7 +12,7 @@ const MyFavorite = () => {
         queryKey: ['favorite', user?.email],
         queryFn: async () => {
             if (!user?.email) return [];
-            const result = await axios.get(`http://localhost:3000/favorite/${user.email}`);
+            const result = await axios.get(`https://localchefbazar-server-mauve.vercel.app/favorite/${user.email}`);
             return result.data;
         },
         enabled: !!user?.email,
@@ -31,7 +31,7 @@ const MyFavorite = () => {
         if (!confirm.isConfirmed) return;
 
         try {
-            await axios.delete(`http://localhost:3000/favorite/${id}`);
+            await axios.delete(`https://localchefbazar-server-mauve.vercel.app/favorite/${id}`);
             refetch();
             Swal.fire({
                 title: "Deleted!",

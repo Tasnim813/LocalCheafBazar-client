@@ -13,7 +13,7 @@ const Meals = () => {
     const { data, isLoading, refetch } = useQuery({
         queryKey: ['meals', currentPage],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:3000/meals?page=${currentPage}&limit=${itemsPerPage}`);
+            const res = await axios.get(`https://localchefbazar-server-mauve.vercel.app/meals?page=${currentPage}&limit=${itemsPerPage}`);
             return res.data;
         },
         keepPreviousData: true,
@@ -28,10 +28,17 @@ const Meals = () => {
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">All Meals</h1>
+           <h1 className="text-3xl font-bold mb-2 text-center text-orange-500">All Meals</h1>
+
+<p className="text-center text-gray-600 max-w-2xl mx-auto mb-6">
+  Explore our wide variety of delicious meals prepared by professional chefs.
+  You can browse meals by category, check prices, and view detailed information
+  before placing your order.
+</p>
+
 
             {/* Sort Buttons */}
-            <div className="flex gap-2 mb-4">
+            <div className="flex gap-2 justify-center mb-4">
                 <button
                     className={`px-3 py-1 rounded ${sortOrder === 'asc' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
                     onClick={() => setSortOrder('asc')}

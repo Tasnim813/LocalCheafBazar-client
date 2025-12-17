@@ -30,7 +30,7 @@ const Home = () => {
 
       <Banner></Banner>
  <Container>
-       <h2 className="text-3xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-lime-500 to-orange-500 text-center">
+       <h2 className="text-3xl mt-5 font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-lime-500 to-orange-500 text-center">
   Daily Meals 
 </h2>
 

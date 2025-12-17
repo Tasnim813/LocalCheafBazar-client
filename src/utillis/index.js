@@ -9,7 +9,7 @@ export  const UploadImage=async imageData =>{
 }
 
 export const saveOrUpdateUser= async userData=>{
-  const {data}= await axios.post('http://localhost:3000/users',userData)
+  const {data}= await axios.post('https://localchefbazar-server-mauve.vercel.app/users',userData)
   return data;
 
 }

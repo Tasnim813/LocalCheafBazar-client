@@ -7,7 +7,7 @@ const Review = () => {
     const { data: reviews = [], isLoading, isError } = useQuery({
         queryKey: ['reviews'],
         queryFn: async () => {
-            const result = await axios.get('http://localhost:3000/review');
+            const result = await axios.get('https://localchefbazar-server-mauve.vercel.app/review');
             return result.data;
         }
     });

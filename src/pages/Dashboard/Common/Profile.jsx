@@ -20,7 +20,7 @@ const Profile = () => {
   const { data: profile = {} } = useQuery({
     queryKey: ['profile', user?.email],
     queryFn: async () => {
-      const result = await axios.get(`http://localhost:3000/users/${user?.email}`)
+      const result = await axios.get(`https://localchefbazar-server-mauve.vercel.app/users/${user?.email}`)
       return result.data
     },
     enabled: !!user?.email
