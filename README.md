@@ -1,16 +1,115 @@
-# React + Vite
+# LocalChefBazaar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
+**LocalChefBazaar** is a modern online marketplace that connects home cooks with people looking for fresh, homemade meals. It allows customers to explore daily menus, place orders, make secure payments, and track their orders in real-time. For home cooks, it provides a simple platform to earn money from their kitchen without needing a physical restaurant.
 
-Currently, two official plugins are available:
+The platform is built using the **MERN stack**:
+- **MongoDB** for database
+- **Express.js** for backend server
+- **React.js** for frontend
+- **Node.js** for server runtime
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Live Project
+**Client Live URL:** https://localchefbazar-client.vercel.app/  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Admin Credentials
+- **Email:** Admin@gmail.com  
+- **Password:** [123@asd]  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Key Features
+
+### User Roles & Permissions
+- **Admin:** Full access including managing users, chefs, orders, and platform statistics.
+- **Chef:** Can create meals, manage menus, and handle customer orders.
+- **Customer/User:** Can browse meals, place orders, submit reviews, and add meals to favorites.
+
+### Authentication
+- Firebase authentication for user registration and login
+- Default role: `user`
+- Profile image upload
+- Email, Name, Address, Password fields
+
+### Pages & Functionalities
+- **Home Page:** Animated hero, daily meals, customer reviews, and extra section
+- **Meals Page:** List of daily meals with sorting by price
+- **Meal Details Page:** Detailed view with reviews and favorite functionality (private)
+- **Order Page:** Confirm order with automatic price calculation and status management
+- **Dashboard:** Role-based dashboards
+  - User: Profile, Orders, Reviews, Favorite Meals
+  - Chef: Profile, Create Meal, My Meals, Order Requests
+  - Admin: Profile, Manage Users, Manage Requests, Platform Statistics
+- **Profile Page:** User information with "Be a Chef/Admin" request
+- **Favorite Meals:** Table view with delete functionality
+- **My Reviews:** List of reviews with update and delete options
+- **Create Meal:** Chef can add new meals
+- **My Meals:** Chef can manage their meals
+- **Order Requests:** Chef can accept, deliver, or cancel orders
+- **Manage Users & Requests:** Admin management with fraud detection
+- **Platform Statistics:** Visual charts for payments, users, and orders
+
+### Additional Features
+- JWT-based authentication for secure access
+- React Hook Form for all forms
+- Dynamic title for each route
+- Pagination on meals page (10 items per page)
+- Responsive design for mobile devices
+- SweetAlert/toast messages for actions
+- Optional: Axios interceptors, search functionality, animations, dark/light theme toggle
+
+---
+
+## Installation & Setup
+
+### Backend
+1. Clone the server repository:
+   ```bash
+   git clone [https://github.com/Tasnim813/LocalchefBazar-server]
+   cd server
+Install dependencies:
+
+bash
+Copy code
+npm install
+Create .env file and add:
+
+ini
+Copy code
+MONGO_URI=your_mongodb_connection_string
+FIREBASE_CONFIG=your_firebase_config
+JWT_SECRET=your_jwt_secret
+Start server:
+
+bash
+Copy code
+npm run dev
+Frontend
+Clone the client repository:
+
+bash
+Copy code
+git clone [https://github.com/Tasnim813/LocalCheafBazar-client]
+cd client
+Install dependencies:
+
+bash
+Copy code
+npm install
+Create .env file and add:
+
+ini
+Copy code
+REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_auth_domain
+REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+REACT_APP_SERVER_URL=http://localhost:5000
+Start client:
+
+bash
+Copy code
+npm start
