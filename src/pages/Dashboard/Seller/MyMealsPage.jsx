@@ -5,6 +5,7 @@ import useAuth from '../../../hooks/useAuth'
 import Swal from 'sweetalert2'
 import { Link } from 'react-router'
 import { motion } from 'framer-motion'
+import LoadingSpinner from '../../../components/Shared/LoadingSpinner'
 
 const MyMealsPage = () => {
   const { user } = useAuth()
@@ -40,7 +41,7 @@ const MyMealsPage = () => {
   }
 
   if (isLoading)
-    return <p className="text-center text-lg text-gray-500 mt-10">Loading your meals...</p>
+    return <LoadingSpinner></LoadingSpinner>
 
   if (meals.length === 0)
     return <p className="text-center text-lg text-gray-500 mt-10">You have no meals yet. 🍽</p>

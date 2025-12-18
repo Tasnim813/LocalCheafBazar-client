@@ -6,6 +6,7 @@ import Banner from './Banner';
 import Review from './Review';
 import HowItWorks from './HowItWorks';
 import Container from '../../components/Shared/Container';
+import LoadingSpinner from '../../components/Shared/LoadingSpinner';
 
 const Home = () => {
 
@@ -22,7 +23,7 @@ const Home = () => {
 
   console.log(meals )
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   if (isError) return <div>Error loading meals</div>;
 
   return (

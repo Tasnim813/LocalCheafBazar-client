@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import Swal from 'sweetalert2'
 import { motion } from 'framer-motion'
+import LoadingSpinner from '../../../components/Shared/LoadingSpinner'
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure()
@@ -24,15 +25,20 @@ const ManageUsers = () => {
       Swal.fire('Success', 'User marked as fraud', 'success')
       refetch()
     } catch (err) {
-      Swal.fire('Error', err.response?.data?.error || 'Failed to update status', 'error')
+      Swal.fire(
+        'Error',
+        err.response?.data?.error || 'Failed to update status',
+        'error'
+      )
     }
   }
 
-  if (isLoading) return <p className="text-center mt-10 text-lime-600">Loading...</p>
+  if (isLoading)
+    return <LoadingSpinner></LoadingSpinner>
 
   return (
     <motion.div
-      className="p-6 max-w-5xl mx-auto"
+      className="p-4 sm:p-6 max-w-5xl mx-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -41,7 +47,8 @@ const ManageUsers = () => {
         Manage Users
       </h2>
 
-      <div className="overflow-x-auto rounded-lg shadow-md">
+      {/* ================= DESKTOP / TABLET TABLE ================= */}
+      <div className="hidden md:block overflow-x-auto rounded-lg shadow-md">
         <table className="w-full border-collapse border text-center">
           <thead>
             <tr className="bg-lime-100 text-lime-800">
@@ -64,7 +71,13 @@ const ManageUsers = () => {
                 <td className="border px-4 py-2">{u.name}</td>
                 <td className="border px-4 py-2">{u.email}</td>
                 <td className="border px-4 py-2">{u.role}</td>
-                <td className={`border px-4 py-2 font-semibold ${u.status === 'fraud' ? 'text-red-600' : 'text-lime-700'}`}>
+                <td
+                  className={`border px-4 py-2 font-semibold ${
+                    u.status === 'fraud'
+                      ? 'text-red-600'
+                      : 'text-lime-700'
+                  }`}
+                >
                   {u.status}
                 </td>
                 <td className="border px-4 py-2">
@@ -86,6 +99,54 @@ const ManageUsers = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* ================= MOBILE CARD VIEW ================= */}
+      <div className="md:hidden space-y-4">
+        {users.map((u, index) => (
+          <motion.div
+            key={u._id}
+            className="border rounded-xl shadow-md p-4 bg-white"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 * index }}
+          >
+            <p className="font-semibold text-lg text-lime-800">{u.name}</p>
+            <p className="text-sm text-gray-600 break-all">{u.email}</p>
+
+            <div className="mt-2 flex justify-between text-sm">
+              <span className="font-medium">Role:</span>
+              <span className="capitalize">{u.role}</span>
+            </div>
+
+            <div className="mt-1 flex justify-between text-sm">
+              <span className="font-medium">Status:</span>
+              <span
+                className={`font-semibold ${
+                  u.status === 'fraud'
+                    ? 'text-red-600'
+                    : 'text-lime-700'
+                }`}
+              >
+                {u.status}
+              </span>
+            </div>
+
+            {(u.role === 'user' || u.role === 'chef') && (
+              <button
+                disabled={u.status === 'fraud'}
+                onClick={() => handleMakeFraud(u.email, u.status)}
+                className={`mt-3 w-full py-2 rounded ${
+                  u.status === 'fraud'
+                    ? 'bg-gray-400 text-white cursor-not-allowed'
+                    : 'bg-red-500 text-white hover:bg-red-600'
+                }`}
+              >
+                {u.status === 'fraud' ? 'Fraud' : 'Make Fraud'}
+              </button>
+            )}
+          </motion.div>
+        ))}
       </div>
     </motion.div>
   )

@@ -10,6 +10,7 @@ import toast from 'react-hot-toast'
 import FoodDetail from './FoodDetail'
 import useAxiosSecure from '../../hooks/useAxiosSecure'
 import axios from 'axios'
+import LoadingSpinner from '../../components/Shared/LoadingSpinner'
 
 const MealDetails = () => {
   const axiosSecure = useAxiosSecure() // JWT-enabled axios
@@ -29,11 +30,12 @@ const MealDetails = () => {
   })
   console.log(meal)
 
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>
 
   const closeModal = () => setIsOpen(false)
 
-  const { foodName, chefName, foodImage, price, rating, ingredients, estimatedDeliveryTime, chefExperience, chefId } = meal
+  const { foodName, chefName, foodImage, price, rating, ingredients, estimatedDeliveryTime, chefExperience, chefId ,
+deliveryArea} = meal
 
   // Handle adding to favorites
  
@@ -75,6 +77,8 @@ const MealDetails = () => {
     <p className="text-gray-800">
       <span className="font-semibold text-orange-500">Price:</span> ${price}
     </p>
+    <p><span className="font-semibold text-orange-500">Delivery Area </span>{
+deliveryArea}</p>
 
     <p className="text-gray-800">
       <span className="font-semibold text-orange-500">Rating:</span>{" "}

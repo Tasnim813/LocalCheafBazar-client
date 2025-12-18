@@ -83,31 +83,32 @@ const OrderRequests = () => {
               <strong>Payment:</strong> {order.paymentStatus}
             </p>
 
-            <div className="flex gap-3 mt-3">
-              <button
-                disabled={!isPending}
-                onClick={() => updateStatus(order._id, "cancelled")}
-                className="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1 rounded font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
-              >
-                Cancel
-              </button>
+            <div className="flex flex-col md:flex-row gap-3 mt-3">
+  <button
+    disabled={!isPending}
+    onClick={() => updateStatus(order._id, "cancelled")}
+    className="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1 rounded font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+  >
+    Cancel
+  </button>
 
-              <button
-                disabled={!isPending || order.paymentStatus !== "paid"}
-                onClick={() => updateStatus(order._id, "accepted")}
-                className="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-1 rounded font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
-              >
-                Accept
-              </button>
+  <button
+    disabled={!isPending || order.paymentStatus !== "paid"}
+    onClick={() => updateStatus(order._id, "accepted")}
+    className="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-1 rounded font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+  >
+    Accept
+  </button>
 
-              <button
-                disabled={!isAccepted}
-                onClick={() => updateStatus(order._id, "delivered")}
-                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1 rounded font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
-              >
-                Deliver
-              </button>
-            </div>
+  <button
+    disabled={!isAccepted}
+    onClick={() => updateStatus(order._id, "delivered")}
+    className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1 rounded font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+  >
+    Deliver
+  </button>
+</div>
+
           </motion.div>
         );
       })}

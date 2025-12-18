@@ -7,9 +7,10 @@ import Button from '../Shared/Button/Button'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { motion } from 'framer-motion'
+import LoadingSpinner from '../Shared/LoadingSpinner'
 
 const CreateMealForm = () => {
-  const { user } = useAuth()
+  const { user,Loading } = useAuth()
 
   const {
     register,
@@ -51,6 +52,10 @@ const CreateMealForm = () => {
       console.error(err)
       toast.error('Failed to create meal')
     }
+  }
+
+  if(Loading){
+    <LoadingSpinner></LoadingSpinner>
   }
 
   return (

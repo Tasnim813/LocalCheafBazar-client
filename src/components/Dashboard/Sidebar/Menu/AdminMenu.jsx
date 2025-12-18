@@ -1,6 +1,7 @@
 import { FaUserCog } from 'react-icons/fa'
 import MenuItem from './MenuItem'
 import { BsGraphUp } from 'react-icons/bs'
+import { ImCart } from "react-icons/im";
 const AdminMenu = () => {
   return (
     <>
@@ -10,7 +11,7 @@ const AdminMenu = () => {
                 address='static-page'
               />
       <MenuItem icon={FaUserCog} label='Manage Users' address='manage-users' />
-      <MenuItem icon={FaUserCog} label='Manage Request' address='manage-request' />
+      <MenuItem icon={ImCart} label='Manage Request' address='manage-request' />
     </>
   )
 }

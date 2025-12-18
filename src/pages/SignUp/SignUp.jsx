@@ -59,7 +59,7 @@ const SignUp = () => {
       <h1 className='my-3 text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-lime-500 to-orange-500'>
         Sign Up
       </h1>
-      <p className='text-sm text-gray-500'>Welcome to PlantNet</p>
+      <p className='text-sm text-gray-500'>Welcome to LocalChefBazar</p>
     </div>
 
     <form

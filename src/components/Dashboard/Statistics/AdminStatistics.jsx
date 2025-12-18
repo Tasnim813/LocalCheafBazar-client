@@ -14,6 +14,7 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { motion } from 'framer-motion'
+import LoadingSpinner from '../../Shared/LoadingSpinner'
 
 const AdminStatistics = () => {
   const axiosSecure = useAxiosSecure()
@@ -27,7 +28,7 @@ const AdminStatistics = () => {
     },
   })
 
-  if (isLoading) return <p className="text-center mt-10">Loading...</p>
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>
 
   const { totalUsers, totalPayments, ordersPending, ordersDelivered } = stats
 

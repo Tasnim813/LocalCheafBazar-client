@@ -7,6 +7,7 @@ import axios from 'axios'
 import useRole from '../../../hooks/useRole'
 import useStatus from '../../../hooks/useStatus'
  import { motion } from 'framer-motion';
+import LoadingSpinner from '../../../components/Shared/LoadingSpinner'
 const Profile = () => {
   const { user } = useAuth()
   const axiosSecure = useAxiosSecure()
@@ -17,7 +18,7 @@ const Profile = () => {
   const [status] = useStatus()
 
   // Fetch user profile
-  const { data: profile = {} } = useQuery({
+  const { data: profile = {},isLoading } = useQuery({
     queryKey: ['profile', user?.email],
     queryFn: async () => {
       const result = await axios.get(`https://localchefbazar-server-mauve.vercel.app/users/${user?.email}`)
@@ -44,6 +45,10 @@ const Profile = () => {
     } finally {
       setRequesting(false)
     }
+  }
+
+  if(isLoading){
+    return <LoadingSpinner></LoadingSpinner>
   }
 
   const { name, email, image, address, chefId } = profile

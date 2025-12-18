@@ -3,6 +3,7 @@ import React from 'react'
 import useAuth from '../../../hooks/useAuth'
 import MyOrderCart from '../../../components/Dashboard/TableRows/MyOrderCart'
 import useAxiosSecure from '../../../hooks/useAxiosSecure'
+import LoadingSpinner from '../../../components/Shared/LoadingSpinner'
 
 const MyOrders = () => {
   const axiosSecure = useAxiosSecure() // JWT-enabled axios
@@ -20,7 +21,7 @@ const MyOrders = () => {
   })
 
   if (isLoading) 
-    return <p className="text-center mt-10 text-lime-600 font-semibold">Loading your orders...</p>
+    return <LoadingSpinner></LoadingSpinner>
 
   return (
     <div className='container mx-auto px-4 sm:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>

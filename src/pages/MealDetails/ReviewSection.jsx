@@ -35,7 +35,10 @@ const ReviewSection = ({ foodId, meal }) => {
     };
 
     try {
-      const res = await axios.post("https://localchefbazar-server-mauve.vercel.app/reviews", reviewData);
+      const res = await axios.post(
+        "https://localchefbazar-server-mauve.vercel.app/reviews",
+        reviewData
+      );
 
       if (res.data?.insertedId) {
         setReviews([
@@ -62,7 +65,7 @@ const ReviewSection = ({ foodId, meal }) => {
     }
 
     const favoriteData = {
-      email: user.email, // must match backend
+      email: user.email,
       mealId: meal._id,
       mealName: meal.foodName,
       chefId: meal.chefId,
@@ -72,7 +75,7 @@ const ReviewSection = ({ foodId, meal }) => {
     };
 
     try {
-      const result = await axiosSecure.post("/favorite", favoriteData);
+      await axiosSecure.post("/favorite", favoriteData);
       Swal.fire("Success", "Meal added to favorites!", "success");
     } catch (error) {
       console.error(error.response?.data || error.message);
@@ -85,44 +88,74 @@ const ReviewSection = ({ foodId, meal }) => {
   };
 
   return (
-    <div className="mt-10">
-  
-      <h2 className="text-2xl font-bold mb-4 text-center">Reviews</h2>
+   
+      <div className="mt-10 px-3 sm:px-6">
+        <h2 className="text-2xl font-bold mb-4 text-center">Reviews</h2>
 
-      <div className="">
-        <div className="grid grid-cols-3 gap-5">
+        {/* Reviews Grid */}
+        <div
+          className="
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            lg:grid-cols-3
+            gap-5
+          "
+        >
           {reviews.map((review) => (
             <DisplayCart key={review._id} review={review} />
           ))}
         </div>
+
+        {/* Review Form */}
+        <form
+          onSubmit={handleSubmit}
+          className="mt-6 space-y-4  mx-auto"
+        >
+          <textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            className="
+              border border-gray-300 rounded-lg
+              w-full p-4 text-gray-700
+              focus:outline-none focus:ring-2
+              focus:ring-blue-400
+              transition
+            "
+            placeholder="Write your review"
+            required
+            rows={4}
+          />
+
+          <button
+            type="submit"
+            className="
+              bg-blue-600 hover:bg-blue-700 text-white
+              px-6 py-2 rounded-lg shadow-md
+              transition transform hover:-translate-y-1
+              w-full sm:w-[200px]
+            "
+          >
+            Give Review
+          </button>
+        </form>
+
+        {/* Favorite Button */}
+        <div className=" mx-auto">
+          <button
+            onClick={handleFavorite}
+            className="
+              mt-4 bg-orange-500 hover:bg-orange-600 text-white
+              px-6 py-2 rounded-lg shadow-md
+              transition transform hover:-translate-y-1
+              w-full sm:w-[200px]
+            "
+          >
+            Add to Favorites
+          </button>
+        </div>
       </div>
-
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-  <textarea
-    value={comment}
-    onChange={(e) => setComment(e.target.value)}
-    className="border border-gray-300 rounded-lg w-full p-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
-    placeholder="Write your review"
-    required
-    rows={4}
-  />
-  <button
-    type="submit"
-    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md transition transform hover:-translate-y-1 w-[200px]"
-  >
-    Give Review
-  </button>
-</form>
-
-<button
-  onClick={handleFavorite}
-  className="mt-4 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg shadow-md transition transform hover:-translate-y-1 w-[200px]"
->
-  Add to Favorites
-</button>
-
-
-    </div>
+    
   );
 };
 

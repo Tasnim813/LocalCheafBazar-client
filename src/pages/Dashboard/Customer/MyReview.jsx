@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import Swal from 'sweetalert2'
 import { motion } from 'framer-motion'
+import LoadingSpinner from '../../../components/Shared/LoadingSpinner'
 
 const MyReview = () => {
   const { user } = useAuth()
@@ -12,7 +13,7 @@ const MyReview = () => {
 
   const [editReview, setEditReview] = useState(null)
 
-  const { data: reviews = [] } = useQuery({
+  const { data: reviews = [] ,isLoading} = useQuery({
     queryKey: ['my-review', user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -61,7 +62,9 @@ const MyReview = () => {
       Swal.fire('Error!', 'Failed to update review', 'error')
     }
   }
-
+if(isLoading){
+  return <LoadingSpinner></LoadingSpinner>
+}
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-lime-500 to-orange-500">

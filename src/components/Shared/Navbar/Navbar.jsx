@@ -111,7 +111,7 @@ const Navbar = () => {
                 src='https://i.ibb.co.com/ymfctdJV/chef-restaurant5078-logowik-com.webp'
                 alt='Logo'
               />
-              LocalChefBazar
+              <span className='hidden md:block' >LocalChefBazar</span>
             </Link>
           </div>
 

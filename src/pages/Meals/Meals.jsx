@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import MealCart from './MealCart';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import axios from 'axios';
+import LoadingSpinner from '../../components/Shared/LoadingSpinner';
 
 const Meals = () => {
     const axiosSecure = useAxiosSecure(); // JWT-enabled axios
@@ -19,7 +20,7 @@ const Meals = () => {
         keepPreviousData: true,
     });
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
     const sortedMeals = [...(data?.meals || [])].sort((a, b) => {
         if (sortOrder === 'asc') return a.price - b.price;
